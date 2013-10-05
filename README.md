@@ -32,3 +32,72 @@ Simplified version of node-static module.
   </tbody>
 </table>
 
+## Example
+
+File structure:
+```
+root/
+├── index.js
+└── public/
+    └── html/
+        ├── index.html
+        ├── test1.html
+        └── test2.html
+```
+
+For the file structure above, the following routes would serve files for each url:
+
+```JSON
+{
+    "/":       { "url": "/html/index.html" },
+    "/test1/": { "url": "/html/test1.html" },
+    "/test2/": { "url": "/html/test2.html" }
+}
+```
+
+This is the content for `index.js` file.
+
+```JS
+// require Johnny's static
+var JohhnysStatic = require("../index.js"),
+    http = require('http');
+
+// set static server: public folder
+JohhnysStatic.setStaticServer({root: "./public"});
+
+// set routes
+JohhnysStatic.setRoutes({
+    "/":       { "url": "/html/index.html" },
+    "/test1/": { "url": "/html/test1.html" },
+    "/test2/": { "url": "/html/test2.html" }
+});
+
+// create http server
+http.createServer(function(req, res) {
+    // safe serve
+    if (JohhnysStatic.exists(req, res)) {
+        // serve file
+        JohhnysStatic.serve(req, res, function (err) {
+            // not found error
+            if (err.code === "ENOENT") {
+                res.end("404 - Not found.");
+                return;
+            }
+
+            // other error
+            res.end(JSON.stringify(err));
+        });
+        return;
+    }
+
+    // if the route doesn't exist, it's a 404!
+    res.end("404 - Not found");
+}).listen(8000);
+```
+
+## Test
+
+```
+npm install johnnys-node-static
+npm test # or ./test.sh
+```
