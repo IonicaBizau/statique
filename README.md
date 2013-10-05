@@ -101,3 +101,7 @@ http.createServer(function(req, res) {
 npm install johnnys-node-static
 npm test # or ./test.sh
 ```
+
+## Licence
+
+See LICENCE file.
