@@ -1,0 +1,27 @@
+{
+  "name": "johnnys-node-static",
+  "version": "0.0.0",
+  "description": "My own version of node-static based on the original Node module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/IonicaBizau/johnnys-node-static.git"
+  },
+  "dependencies": {
+    "node-static": "*"
+  },
+  "keywords": [
+    "node-static",
+    "serve",
+    "files",
+    "html"
+  ],
+  "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "license": "The MIT Licence",
+  "bugs": {
+    "url": "https://github.com/IonicaBizau/johnnys-node-static/issues"
+  }
+}
