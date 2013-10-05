@@ -72,3 +72,5 @@ objToExport.serve = function (req, res, callback) {
     promise.on("error", callback);
     return promise;
 };
+
+module.exports = objToExport;
