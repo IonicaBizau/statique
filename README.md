@@ -1,9 +1,112 @@
 johnnys-node-static
 ===================
 
-My own version of node-static based on the original Node module.
+Simplified version of node-static module.
+
+## Documentation
+
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>setStaticServer</code></td>
+      <td>Sets the static server.</td>
+    </tr>
+    <tr>
+      <td><code>setRoutes</code></td>
+      <td>Sets the routes object.</td>
+    </tr>
+    <tr>
+      <td><code>exists</code></td>
+      <td>Verifies if the route does exist and returns <code>true</code> or <code>false</code>.</td>
+    </tr>
+    <tr>
+      <td><code>serve</code></td>
+      <td>Serves the file specified in routes object.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Example
+
+File structure:
+```
+root/
+├── index.js
+└── public/
+    └── html/
+        ├── index.html
+        ├── test1.html
+        └── test2.html
+```
+
+For the file structure above, the following routes would serve files for each url:
+
+```JSON
+{
+    "/":       { "url": "/html/index.html" },
+    "/test1/": { "url": "/html/test1.html" },
+    "/test2/": { "url": "/html/test2.html" }
+}
+```
+
+This is the content for `index.js` file.
+
+```JS
+// require Johnny's static
+var JohhnysStatic = require("../index.js"),
+    http = require('http');
+
+// set static server: public folder
+JohhnysStatic.setStaticServer({root: "./public"});
+
+// set routes
+JohhnysStatic.setRoutes({
+    "/":       { "url": "/html/index.html" },
+    "/test1/": { "url": "/html/test1.html" },
+    "/test2/": { "url": "/html/test2.html" }
+});
+
+// create http server
+http.createServer(function(req, res) {
+    // safe serve
+    if (JohhnysStatic.exists(req, res)) {
+        // serve file
+        JohhnysStatic.serve(req, res, function (err) {
+            // not found error
+            if (err.code === "ENOENT") {
+                res.end("404 - Not found.");
+                return;
+            }
+
+            // other error
+            res.end(JSON.stringify(err));
+        });
+        return;
+    }
+
+    // if the route doesn't exist, it's a 404!
+    res.end("404 - Not found");
+}).listen(8000);
+```
+
+## Test
+
+```
+npm install johnnys-node-static
+npm test # or ./test.sh
+```
 
 ## Changelog
 
 ### v0.1.0
  - Initial release.
+
+## Licence
+
+See LICENCE file.
