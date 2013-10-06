@@ -3,6 +3,8 @@ johnnys-node-static
 
 Simplified version of node-static module.
 
+![](https://nodei.co/npm/johnnys-node-static.png)
+
 ## Documentation
 
 <table>
