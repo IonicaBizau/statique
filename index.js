@@ -73,4 +73,9 @@ objToExport.serve = function (req, res, callback) {
     return promise;
 };
 
+// serve any file
+objToExport.serveAll = function (req, res, callback) {
+    staticServer.serve(req, res, callback);
+};
+
 module.exports = objToExport;
