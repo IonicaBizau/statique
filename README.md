@@ -12,24 +12,34 @@ Simplified version of node-static module.
     <tr>
       <th>Function</th>
       <th>Description</th>
+      <th>Example</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code>setStaticServer</code></td>
       <td>Sets the static server.</td>
+      <td></td>
     </tr>
     <tr>
       <td><code>setRoutes</code></td>
       <td>Sets the routes object.</td>
+      <td></td>
     </tr>
     <tr>
       <td><code>exists</code></td>
       <td>Verifies if the route does exist and returns <code>true</code> or <code>false</code>.</td>
+      <td></td>
     </tr>
     <tr>
       <td><code>serve</code></td>
       <td>Serves the file specified in routes object.</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>serveAll</code></td>
+      <td>Serves any file from root.</td>
+      <td></td>
     </tr>
   </tbody>
 </table>
@@ -105,6 +115,9 @@ npm test # or ./test.sh
 ```
 
 ## Changelog
+
+### v0.1.0
+ - Added `serveAll` method.
 
 ### v0.1.0
  - Initial release.
