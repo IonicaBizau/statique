@@ -1,2 +1,3 @@
 cd test
-node index.js
+npm install
+npm test
