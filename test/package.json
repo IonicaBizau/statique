@@ -1,0 +1,21 @@
+{
+  "name": "Johnny's-node-static-test",
+  "version": "0.0.0",
+  "description": "Test application for Johnny's node static.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index"
+  },
+  "dependencies": {
+    "johnnys-node-static": "*"
+  },
+  "keywords": [
+    "test",
+    "johnny's",
+    "node",
+    "static",
+    "static"
+  ],
+  "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "license": "The MIT Licence"
+}

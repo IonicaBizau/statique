@@ -1,5 +1,5 @@
 // require Johnny's static
-var JohhnysStatic = require("../index.js"),
+var JohhnysStatic = require("johnnys-node-static"),
     http = require('http');
 
 // set static server: public folder
