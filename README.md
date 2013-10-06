@@ -116,7 +116,7 @@ npm test # or ./test.sh
 
 ## Changelog
 
-### v0.1.0
+### v0.1.1
  - Added `serveAll` method.
 
 ### v0.1.0
