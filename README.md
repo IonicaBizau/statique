@@ -71,14 +71,14 @@ This is the content for `index.js` file.
 
 ```JS
 // require Johnny's static
-var JohhnysStatic = require("../index.js"),
+var JohnnysStatic = require("johnnys-node-static"),
     http = require('http');
 
 // set static server: public folder
-JohhnysStatic.setStaticServer({root: "./public"});
+JohnnysStatic.setStaticServer({root: "./public"});
 
 // set routes
-JohhnysStatic.setRoutes({
+JohnnysStatic.setRoutes({
     "/":       { "url": "/html/index.html" },
     "/test1/": { "url": "/html/test1.html" },
     "/test2/": { "url": "/html/test2.html" }
@@ -87,9 +87,9 @@ JohhnysStatic.setRoutes({
 // create http server
 http.createServer(function(req, res) {
     // safe serve
-    if (JohhnysStatic.exists(req, res)) {
+    if (JohnnysStatic.exists(req, res)) {
         // serve file
-        JohhnysStatic.serve(req, res, function (err) {
+        JohnnysStatic.serve(req, res, function (err) {
             // not found error
             if (err.code === "ENOENT") {
                 res.end("404 - Not found.");
