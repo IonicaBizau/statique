@@ -1,10 +1,14 @@
 // global
-var static = require('node-static');
-var staticServer;
+var static = require('node-static')
 
-// routes object
-var routes = {};
-var objToExport = {};
+    // static server object
+  , staticServer
+
+    // routes object
+  , routes = {}
+
+    // module
+  , objToExport = {};
 
 // set the static server
 objToExport.setStaticServer = function (options) {
@@ -13,6 +17,7 @@ objToExport.setStaticServer = function (options) {
 
 // set routes
 objToExport.setRoutes = function (routesObj, callback) {
+
     // set routes object
     routes = routesObj;
 
@@ -47,6 +52,7 @@ objToExport.exists = function (req, res) {
 
     // if it exists
     if (route && route.url) {
+
         // return true
         return true;
     }
@@ -63,19 +69,24 @@ objToExport.serve = function (req, res, callback) {
     callback = callback || function () {};
 
     // get route
-    var route = getRoute(req.url);
+    var route = getRoute(req.url)
 
-    // callback some result
-    var promise = staticServer.serveFile(route.url, 200, {}, req, res);
+        // get the promise
+      , promise = staticServer.serveFile(route.url, 200, {}, req, res);
 
-    // if an error appears
+    // if an error appears, callback it
     promise.on("error", callback);
+
+    // and return the promise
     return promise;
 };
 
 // serve any file
 objToExport.serveAll = function (req, res, callback) {
+
+    // serve any file
     staticServer.serve(req, res, callback);
 };
 
+// export the module
 module.exports = objToExport;
