@@ -66,7 +66,7 @@ objToExport.serve = function (req, res, callback) {
     var route = getRoute(req.url);
 
     // callback some result
-    var promise = staticServer.serveFile(route.url, "", {}, req, res);
+    var promise = staticServer.serveFile(route.url, 200, {}, req, res);
 
     // if an error appears
     promise.on("error", callback);
