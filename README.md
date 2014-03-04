@@ -116,6 +116,9 @@ npm test # or ./test.sh
 
 ## Changelog
 
+### v0.1.2
+ - Fixed the bug related to the status code.
+
 ### v0.1.1
  - Added `serveAll` method.
 
