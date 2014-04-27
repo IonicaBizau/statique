@@ -1,5 +1,5 @@
-johnnys-node-static
-===================
+Statique
+========
 
 Simplified version of node-static module.
 
