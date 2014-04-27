@@ -15,7 +15,7 @@ Statique
 
 // create server
 http.createServer(function(req, res) {
-    Statique.sendRes (req, res);
+    Statique.serve (req, res);
 }).listen(8000);
 
 // output
