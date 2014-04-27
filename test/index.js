@@ -5,13 +5,13 @@ var JohhnysStatic = require("../index")
   , http = require('http');
 
 // set static server: public folder
-JohhnysStatic.setStaticServer({root: "./public"});
+JohhnysStatic.setStaticServer({root: __dirname + "/public"});
 
 // set routes
 JohhnysStatic.setRoutes({
-    "/":       { "url": __dirname + "/html/index.html" }
-  , "/test1/": { "url": __dirname + "/html/test1.html" }
-  , "/test2/": { "url": __dirname + "/html/test2.html" }
+    "/":       { "url": "/html/index.html" }
+  , "/test1/": { "url": "/html/test1.html" }
+  , "/test2/": { "url": "/html/test2.html" }
 });
 
 // create http server
