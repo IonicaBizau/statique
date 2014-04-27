@@ -18,35 +18,25 @@ Statique.setRoutes({
 // create http server
 http.createServer(function(req, res) {
 
-    // safe serve
-    if (Statique.exists(req, res)) {
+    // serve file
+    Statique.sendRes (req, res, function (err) {
 
-        // serve file
-        Statique.sendRes (req, res, function (err) {
+        // not found error
+        if (err.code === "ENOENT") {
 
-            // not found error
-            if (err.code === "ENOENT") {
+            // write head
+            res.writeHead(404, {"Content-Type": "text/html"});
 
-                // write head
-                res.writeHead(404, {"Content-Type": "text/html"});
+            // send response
+            res.end("404 - Not found.");
 
-                // send response
-                res.end("404 - Not found.");
+            // return
+            return;
+        }
 
-                // return
-                return;
-            }
-
-            // other error
-            res.end(JSON.stringify(err));
-        });
-
-        // return
-        return;
-    }
-
-    // if the route doesn't exist, it's a 404!
-    res.end("404 - Not found");
+        // other error
+        res.end(JSON.stringify(err));
+    });
 
 }).listen(8000);
 

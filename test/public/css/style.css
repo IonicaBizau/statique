@@ -1,0 +1,57 @@
+/* phone */
+@media (min-width: 100px) {
+    .tablet, .laptop, .monitor { display: none; }
+    .phone { display: block; }
+    body {
+        background: rgb( 231, 76,  60 );
+    }
+    h1 { font-size: 2em; }
+}
+
+/* tablet */
+@media (min-width: 500px) {
+    .phone, .laptop, .monitor { display: none; }
+    .tablet { display: block; }
+    body {
+        background: rgb( 52,  73,  94 );
+    }
+    h1 { font-size: 4em; }
+}
+
+/* laptop */
+@media (min-width: 1000px) {
+    .phone, .tablet, .monitor { display: none; }
+    .laptop { display: block; }
+    body {
+        background: rgb( 230, 126, 34 );
+    }
+    h1 { font-size: 6em; }
+}
+
+/* monitor */
+@media (min-width: 2000px) {
+    .phone, .tablet, .laptop { display: none; }
+    .monitor { display: block; }
+    body {
+        background: rgb( 192, 57,  43 );
+    }
+    h1 { font-size: 9em; }
+    p { font-size: 3em; }
+    body {
+        text-align: right !important;
+    }
+}
+
+/* all */
+body {
+    text-align: center;
+    font-family: Open Sans, Arial;
+    color: white;
+    padding: 10px;
+}
+
+
+h1 {
+    text-shadow: 2px 2px 0 #1f1f1f;
+    font-weight: 100;
+}
