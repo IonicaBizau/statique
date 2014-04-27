@@ -118,6 +118,10 @@ npm test # or ./test.sh
 
 ## Changelog
 
+### v0.2.2
+ - Added `serve` method
+ - `sendRes` is used for sending custom content, statusCode and mime type.
+
 ### v0.2.1
  - Updated tests
  - Serve css and other files that are not provided in route object.
