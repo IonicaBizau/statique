@@ -19,24 +19,7 @@ Statique.setRoutes({
 http.createServer(function(req, res) {
 
     // serve file
-    Statique.sendRes (req, res, function (err) {
-
-        // not found error
-        if (err.code === "ENOENT") {
-
-            // write head
-            res.writeHead(404, {"Content-Type": "text/html"});
-
-            // send response
-            res.end("404 - Not found.");
-
-            // return
-            return;
-        }
-
-        // other error
-        res.end(JSON.stringify(err));
-    });
+    Statique.sendRes (req, res);
 
 }).listen(8000);
 

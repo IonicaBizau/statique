@@ -76,7 +76,7 @@ This is the content for `index.js` file.
 
 ```js
 // require statique
-var Statique = require("statique")
+var Statique = require("../index")
 
     // require http
   , http = require('http')
@@ -95,35 +95,8 @@ Statique.setRoutes({
 // create http server
 http.createServer(function(req, res) {
 
-    // safe serve
-    if (Statique.exists(req, res)) {
-
-        // serve file
-        Statique.sendRes (req, res, function (err) {
-
-            // not found error
-            if (err.code === "ENOENT") {
-
-                // write head
-                res.writeHead(404, {"Content-Type": "text/html"});
-
-                // send response
-                res.end("404 - Not found.");
-
-                // return
-                return;
-            }
-
-            // other error
-            res.end(JSON.stringify(err));
-        });
-
-        // return
-        return;
-    }
-
-    // if the route doesn't exist, it's a 404!
-    res.end("404 - Not found");
+    // serve file
+    Statique.sendRes (req, res);
 
 }).listen(8000);
 
