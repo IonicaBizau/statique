@@ -113,6 +113,10 @@ npm test # or ./test.sh
 
 ## Changelog
 
+### v0.2.1
+ - Updated tests
+ - Serve css and other files that are not provided in route object.
+
 ### v0.2.0
  - Deprecated `johnnys-node-static` module
  - Refactored the code
