@@ -118,6 +118,9 @@ npm test # or ./test.sh
 
 ## Changelog
 
+### v0.2.3
+ - Fixed `readFile` function (typo)
+
 ### v0.2.2
  - Added `serve` method
  - `sendRes` is used for sending custom content, statusCode and mime type.
