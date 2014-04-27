@@ -45,7 +45,7 @@ var Statique = {
   , sendRes: function (req, res) {
 
         var parsedUrl = Url.parse (req.url)
-          , route = Statique.getRoute (parsedUrl.pathname)
+          , route = Statique.getRoute (parsedUrl.pathname) || parsedUrl.pathname
           , stats = null
           , fileName = Statique._root + route
           ;
@@ -60,7 +60,7 @@ var Statique = {
 
         if (stats.isFile()) {
             res.writeHead(200, {
-                "Content-Type": MIME_TYPES[Path.extname(route)] || MIME_TYPES["html"]
+                "Content-Type": MIME_TYPES[Path.extname(route).substring(1)] || MIME_TYPES["html"]
               , "Server": "Statique Server"
             });
 
