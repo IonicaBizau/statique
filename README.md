@@ -75,29 +75,24 @@ For the file structure above, the following routes would serve files for each ur
 This is the content for `index.js` file.
 
 ```js
-// require statique
-var Statique = require("../index")
-
-    // require http
+// dependencies
+var Statique = require ("statique")
   , http = require('http')
   ;
 
-// set static server: public folder
-Statique.server({root: __dirname + "/public"});
+// statique config
+Statique
+    .server({root: __dirname + "/public"})
+    .setRoutes({
+        "/":       "/html/index.html"
+      , "/test1/": "/html/test1.html"
+      , "/test2/": "/html/test2.html"
+    })
+  ;
 
-// set routes
-Statique.setRoutes({
-    "/":       "/html/index.html"
-  , "/test1/": "/html/test1.html"
-  , "/test2/": "/html/test2.html"
-});
-
-// create http server
+// create server
 http.createServer(function(req, res) {
-
-    // serve file
     Statique.sendRes (req, res);
-
 }).listen(8000);
 
 // output
