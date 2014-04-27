@@ -116,6 +116,9 @@ npm test # or ./test.sh
 
 ## Changelog
 
+### v0.1.3
+ - Fixed route setting.
+
 ### v0.1.2
  - Fixed the bug related to the status code.
 
