@@ -52,14 +52,19 @@ Simplified version of node-static module.
 ## Example
 
 File structure:
-```
-root/
+```sh
+$ tree
+root
 ├── index.js
-└── public/
-    └── html/
+└── public
+    ├── css
+    │   └── style.css
+    └── html
         ├── index.html
         ├── test1.html
         └── test2.html
+
+3 directories, 5 files
 ```
 
 For the file structure above, the following routes would serve files for each url:
