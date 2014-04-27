@@ -1,4 +1,4 @@
-// require Johnny's static
+// require statique
 var Statique = require("../index")
 
     // require http
