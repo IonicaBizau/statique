@@ -31,6 +31,11 @@ var Statique = {
         return Statique;
     }
   , getRoute: function (url) {
+
+        if (url.slice (-1) === "/") {
+            url = url.substring (0, url.length - 1);
+        }
+
         return Statique._routes[url] || Statique._routes[url + "/"] || null;
     }
   , exists: function (req, res) {
