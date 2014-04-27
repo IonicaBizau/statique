@@ -42,8 +42,13 @@ Simplified version of node-static module.
       <td></td>
     </tr>
     <tr>
-      <td><code>sendRes</code></td>
+      <td><code>serve</code></td>
       <td>Serves the file specified in routes object.</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>sendRes</code></td>
+      <td>Sends a custom content, status code and MIME type</td>
       <td></td>
     </tr>
   </tbody>
