@@ -4,7 +4,7 @@
   , "description": "node-static simplified alternative"
   , "main": "index.js"
   , "scripts": {
-        "test": "sh test.sh"
+        "test": "node test/index.js"
     }
   , "repository": {
         "type": "git"
