@@ -37,7 +37,7 @@ var Statique = {
         return Boolean (Statique.getRoute(Url.parse(req.url).pathname));
     }
   , readFile: function (file, callback) {
-        return fs.readFile (Statique._root + file, function (err, buffer) {
+        return Fs.readFile (Statique._root + file, function (err, buffer) {
             if (err) { return callback (err); }
             callback (null, buffer.toString())
         });
