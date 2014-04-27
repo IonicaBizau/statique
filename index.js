@@ -18,6 +18,26 @@ objToExport.setStaticServer = function (options) {
 // set routes
 objToExport.setRoutes = function (routesObj, callback) {
 
+    var objRoutes = Object.keys (routesObj);
+    for (var i = 0; i < objRoutes.length; ++i) {
+        var route = objRoutes[i]
+          , cRoute = routesObj[route]
+          ;
+
+        if (cRoute.slice(-1) !== "/") {
+            delete routesObj[route];
+            if (route !== "/") {
+                route += "/";
+            }
+            routesObj[route] = cRoute;
+            if (cRoute && cRoute.constructor.name === "String") {
+                routesObj[route] =  {
+                    url: cRoute
+                }
+            }
+        }
+    }
+
     // set routes object
     routes = routesObj;
 
