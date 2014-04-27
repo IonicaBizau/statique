@@ -1,27 +1,31 @@
 {
-  "name": "johnnys-node-static",
-  "version": "0.1.2",
-  "description": "My own version of node-static based on the original Node module.",
-  "main": "index.js",
-  "scripts": {
-    "test": "sh test.sh"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/IonicaBizau/johnnys-node-static.git"
-  },
-  "dependencies": {
-    "node-static": "*"
-  },
-  "keywords": [
-    "node-static",
-    "serve",
-    "files",
-    "html"
-  ],
-  "author": "Ionică Bizău <bizauionica@gmail.com>",
-  "license": "The MIT Licence",
-  "bugs": {
-    "url": "https://github.com/IonicaBizau/johnnys-node-static/issues"
-  }
+    "name": "johnnys-node-static"
+  , "version": "0.1.2"
+  , "description": "My own version of node-static based on the original Node module."
+  , "main": "index.js"
+  , "scripts": {
+        "test": "sh test.sh"
+    }
+  , "repository": {
+        "type": "git"
+      , "url": "git://github.com/IonicaBizau/johnnys-node-static.git"
+    }
+  , "dependencies": {
+        "node-static": "*"
+    }
+  , "keywords": [
+        "node-static"
+      , "serve"
+      , "files"
+      , "html"
+    ]
+  , "author": {
+        "name": "Ionică Bizău"
+      , "email": "bizauionica@gmail.com"
+    }
+  , "license": "MIT"
+  , "bugs": {
+        "url": "https://github.com/IonicaBizau/johnnys-node-static/issues"
+    }
+  , "homepage": "https://github.com/IonicaBizau/johnnys-node-static"
 }
