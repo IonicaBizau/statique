@@ -1,17 +1,14 @@
 {
-    "name": "johnnys-node-static"
-  , "version": "0.1.3"
-  , "description": "My own version of node-static based on the original Node module."
+    "name": "statique"
+  , "version": "0.2.0"
+  , "description": "node-static simplified alternative"
   , "main": "index.js"
   , "scripts": {
         "test": "sh test.sh"
     }
   , "repository": {
         "type": "git"
-      , "url": "git://github.com/IonicaBizau/johnnys-node-static.git"
-    }
-  , "dependencies": {
-        "node-static": "*"
+      , "url": "git://github.com/IonicaBizau/node-statique.git"
     }
   , "keywords": [
         "node-static"
@@ -25,7 +22,7 @@
     }
   , "license": "MIT"
   , "bugs": {
-        "url": "https://github.com/IonicaBizau/johnnys-node-static/issues"
+        "url": "https://github.com/IonicaBizau/node-statique/issues"
     }
-  , "homepage": "https://github.com/IonicaBizau/johnnys-node-static"
+  , "homepage": "https://github.com/IonicaBizau/node-statique"
 }
