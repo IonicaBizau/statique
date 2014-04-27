@@ -1,112 +1,74 @@
-// global
-var static = require('node-static')
+var Url = require ("url")
+  , Fs  = require ("fs")
+  , Path = require("path")
+  ;
 
-    // static server object
-  , staticServer
-
-    // routes object
-  , routes = {}
-
-    // module
-  , objToExport = {};
-
-// set the static server
-objToExport.setStaticServer = function (options) {
-    return staticServer = new(static.Server)(options.root);
+const MIME_TYPES = {
+    "html": "text/html"
+  , "jpeg": "image/jpeg"
+  , "jpg":  "image/jpeg"
+  , "png":  "image/png"
+  , "js":   "text/javascript"
+  , "css":  "text/css"
 };
 
-// set routes
-objToExport.setRoutes = function (routesObj, callback) {
-
-    var objRoutes = Object.keys (routesObj);
-    for (var i = 0; i < objRoutes.length; ++i) {
-        var route = objRoutes[i]
-          , cRoute = routesObj[route]
-          ;
-
-        if (cRoute.slice(-1) !== "/") {
-            delete routesObj[route];
-            if (route !== "/") {
-                route += "/";
-            }
-            routesObj[route] = cRoute;
-            if (cRoute && cRoute.constructor.name === "String") {
-                routesObj[route] =  {
-                    url: cRoute
-                }
+var Statique = {
+    server: function (options) {
+        if (typeof options === "string") {
+            options = {
+                root: options
             }
         }
+        if (options.root.slice (-1) !== "/") {
+            options.root += "/";
+        }
+
+        Statique._root = options.root;
+        return Statique;
     }
-
-    // set routes object
-    routes = routesObj;
-
-    // if callback is defined, call it!
-    callback ? callback(null, routes) : "";
-
-    // also, return routes
-    return routes;
-};
-
-function getRoute (url) {
-
-    // verify if it doesn't end with '/'
-    if (url.slice(-1) !== "/") {
-        // if yes, add '/'
-        url += "/";
+  , setRoutes: function (routes) {
+        Statique._routes = routes;
+        return Statique;
     }
-
-    // get route
-    var route = routes[url];
-
-    // and return it
-    return route;
-}
-
-// route exists
-// TODO Options?
-objToExport.exists = function (req, res) {
-
-    // get the route object from routes
-    var route = getRoute(req.url);
-
-    // if it exists
-    if (route && route.url) {
-
-        // return true
-        return true;
+  , getRoute: function (url) {
+        return Statique._routes[url] || Statique._routes[url + "/"] || null;
     }
+  , exists: function (req, res) {
+        return Boolean (Statique.getRoute(Url.parse(req.url).pathname));
+    }
+  , readFile: function (file, callback) {
+        return fs.readFile (Statique._root + file, function (err, buffer) {
+            if (err) { return callback (err); }
+            callback (null, buffer.toString())
+        });
+    }
+  , sendRes: function (req, res) {
 
-    // else, return false
-    return false;
-}
+        var parsedUrl = Url.parse (req.url)
+          , route = Statique.getRoute (parsedUrl.pathname)
+          , stats = null
+          , fileName = Statique._root + route
+          ;
 
-// serve
-// TODO options
-objToExport.serve = function (req, res, callback) {
+        try {
+            stats = Fs.lstatSync (fileName);
+        } catch (e) {
+            res.writeHead(404, {"Content-Type": "text/plain"});
+            res.end("404 Not found");
+            return;
+        }
 
-    // force callback to be a function
-    callback = callback || function () {};
+        if (stats.isFile()) {
+            res.writeHead(200, {
+                "Content-Type": MIME_TYPES[Path.extname(route)] || MIME_TYPES["html"]
+              , "Server": "Statique Server"
+            });
 
-    // get route
-    var route = getRoute(req.url)
-
-        // get the promise
-      , promise = staticServer.serveFile(route.url, 200, {}, req, res);
-
-    // if an error appears, callback it
-    promise.on("error", callback);
-
-    // and return the promise
-    return promise;
-};
-
-// serve any file
-objToExport.serveAll = function (req, res, callback) {
-
-    // serve any file
-    staticServer.serve(req, res, callback);
+            var fileStream = Fs.createReadStream(fileName);
+            fileStream.pipe(res);
+        }
+    }
 };
 
 // export the module
-module.exports = objToExport;
+module.exports = Statique;

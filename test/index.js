@@ -1,27 +1,28 @@
 // require Johnny's static
-var JohhnysStatic = require("../index")
+var Statique = require("../index")
 
     // require http
-  , http = require('http');
+  , http = require('http')
+  ;
 
 // set static server: public folder
-JohhnysStatic.setStaticServer({root: __dirname + "/public"});
+Statique.server({root: __dirname + "/public"});
 
 // set routes
-JohhnysStatic.setRoutes({
-    "/":       { "url": "/html/index.html" }
-  , "/test1/": { "url": "/html/test1.html" }
-  , "/test2/": { "url": "/html/test2.html" }
+Statique.setRoutes({
+    "/":       "/html/index.html"
+  , "/test1/": "/html/test1.html"
+  , "/test2/": "/html/test2.html"
 });
 
 // create http server
 http.createServer(function(req, res) {
 
     // safe serve
-    if (JohhnysStatic.exists(req, res)) {
+    if (Statique.exists(req, res)) {
 
         // serve file
-        JohhnysStatic.serve(req, res, function (err) {
+        Statique.sendRes (req, res, function (err) {
 
             // not found error
             if (err.code === "ENOENT") {
