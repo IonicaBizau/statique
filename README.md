@@ -120,6 +120,7 @@ npm test # or ./test.sh
 
 ### v0.2.3
  - Fixed `readFile` function (typo)
+ - Minor fix in `getRoute` method
 
 ### v0.2.2
  - Added `serve` method
