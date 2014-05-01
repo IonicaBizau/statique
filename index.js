@@ -36,7 +36,12 @@ var Statique = {
             url = url.substring (0, url.length - 1);
         }
 
-        return Statique._routes[url] || Statique._routes[url + "/"] || null;
+        var route = Statique._routes[url] || Statique._routes[url + "/"] || null;
+        if (route && route.constructor.name === "Object" && route.url) {
+            route = route.url;
+        }
+
+        return route;
     }
   , exists: function (req, res) {
         return Boolean (Statique.getRoute(Url.parse(req.url).pathname));
