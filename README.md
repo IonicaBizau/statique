@@ -118,6 +118,9 @@ npm test # or ./test.sh
 
 ## Changelog
 
+### v0.2.4
+ - Accept route objects that contain `url` field
+
 ### v0.2.3
  - Fixed `readFile` function (typo)
  - Minor fix in `getRoute` method
