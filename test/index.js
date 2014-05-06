@@ -8,7 +8,7 @@ Statique
     .server({root: __dirname + "/public"})
     .setRoutes({
         "/":       "/html/index.html"
-      , "/test1/": "/html/test1.html"
+      , "/test1/": {url: "/html/test1.html"}
       , "/test2/": "/html/test2.html"
     })
   ;
