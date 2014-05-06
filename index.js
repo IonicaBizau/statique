@@ -92,10 +92,9 @@ Statique.getRoute = function (url) {
  * Checks if the url exists in the routes object
  *
  * @param req: the request object
- * @param res: the response object
  * @return: true, if the route was found, else false
  */
-Statique.exists = function (req, res) {
+Statique.exists = function (req) {
     return Boolean (Statique.getRoute(Url.parse(req.url).pathname));
 };
 
@@ -168,4 +167,3 @@ Statique.sendRes = function (res, statusCode, mimeType, content) {
         res.end (content);
     }
 };
-
