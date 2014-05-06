@@ -1,5 +1,4 @@
-Statique
-========
+![](http://i.imgur.com/Az6vZ06.png)
 
 Simplified version of node-static module.
 
