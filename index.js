@@ -34,7 +34,7 @@ var Statique = module.exports = {};
  *  - root: string representing the absolute path to the public folder.
  * @return: Statique object
  */
-Statique.server: function (options) {
+Statique.server = function (options) {
     if (typeof options === "string") {
         options = {
             root: options
@@ -61,7 +61,7 @@ Statique.server: function (options) {
  *
  * @return: Statique object
  */
-Statique.setRoutes: function (routes) {
+Statique.setRoutes = function (routes) {
     Statique._routes = routes;
     return Statique;
 };
@@ -73,7 +73,7 @@ Statique.setRoutes: function (routes) {
  * @param url: a string representing the url of the page that must be served
  * @return: the route to the HTML page
  */
-Statique.getRoute: function (url) {
+Statique.getRoute = function (url) {
 
     if (url.slice (-1) === "/") {
         url = url.substring (0, url.length - 1);
@@ -95,7 +95,7 @@ Statique.getRoute: function (url) {
  * @param res: the response object
  * @return: true, if the route was found, else false
  */
-Statique.exists: function (req, res) {
+Statique.exists = function (req, res) {
     return Boolean (Statique.getRoute(Url.parse(req.url).pathname));
 };
 
@@ -108,7 +108,7 @@ Statique.exists: function (req, res) {
  * (first argument) and the content of the file (second argument)
  * @return
  */
-Statique.readFile: function (file, callback) {
+Statique.readFile = function (file, callback) {
     return Fs.readFile (Statique._root + file, function (err, buffer) {
         if (err) { return callback (err); }
         callback (null, buffer.toString())
@@ -123,7 +123,7 @@ Statique.readFile: function (file, callback) {
  * @param res: the response object
  * @return undefined
  */
-Statique.serve: function (req, res) {
+Statique.serve = function (req, res) {
 
     var parsedUrl = Url.parse (req.url)
       , route = Statique.getRoute (parsedUrl.pathname) || parsedUrl.pathname
@@ -157,7 +157,7 @@ Statique.serve: function (req, res) {
  * @param content: optional s
  * @return
  */
-Statique.sendRes: function (res, statusCode, mimeType, content) {
+Statique.sendRes = function (res, statusCode, mimeType, content) {
 
     res.writeHead(statusCode, {
         "Content-Type": mimeType || "plain/text"
