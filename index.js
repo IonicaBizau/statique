@@ -154,7 +154,7 @@ Statique.serve = function (req, res) {
  * @param statusCode: the status code (integer)
  * @param mimeType: the mime type
  * @param content: optional s
- * @return
+ * @return Statique object
  */
 Statique.sendRes = function (res, statusCode, mimeType, content) {
 
@@ -166,4 +166,6 @@ Statique.sendRes = function (res, statusCode, mimeType, content) {
     if (typeof content === "string") {
         res.end (content);
     }
+
+    return Statique;
 };
