@@ -120,32 +120,7 @@ Statique.readFile = function (file, callback) {
  * @return {Object} the Statique instance
  */
 Statique.serve = function (req, res) {
-
-    var parsedUrl = Url.parse (req.url)
-      , route = Statique.getRoute (parsedUrl.pathname) || parsedUrl.pathname
-      , stats = null
-      , fileName = Statique._root + route
-      ;
-
-    if (typeof route === "function") {
-        route(req, res);
-        return Statique;
-    }
-
-    try {
-        stats = Fs.lstatSync (fileName);
-    } catch (e) {
-        Statique.sendRes (res, 404, "html", "404 - Not found");
-        return Statique;
-    }
-
-    if (stats.isFile()) {
-        Statique.sendRes(res, 200, MIME_TYPES[Path.extname(route).substring(1)]);
-        var fileStream = Fs.createReadStream(fileName);
-        fileStream.pipe(res);
-    }
-
-    return Statique;
+    return Statique.serveRoute(undefined, req, res);
 };
 
 /**
@@ -168,6 +143,46 @@ Statique.sendRes = function (res, statusCode, mimeType, content) {
 
     if (typeof content === "string") {
         res.end (content);
+    }
+
+    return Statique;
+};
+
+/**
+ * serveRoute
+ * Serves a provided route.
+ *
+ * @name serveRoute
+ * @function
+ * @param {String} route The route that should be served
+ * @param {Object} req The request object
+ * @param {Object} res The response object
+ * @return {Object} The Statique instance
+ */
+Statique.serveRoute = function (route, req, res) {
+
+    var parsedUrl = Url.parse (req.url)
+      , routeToServe = Statique.getRoute (route || parsedUrl.pathname) || parsedUrl.pathname
+      , stats = null
+      , fileName = Statique._root + routeToServe
+      ;
+
+    if (typeof routeToServe === "function") {
+        routeToServe(req, res);
+        return Statique;
+    }
+
+    try {
+        stats = Fs.lstatSync (fileName);
+    } catch (e) {
+        Statique.sendRes (res, 404, "html", "404 - Not found");
+        return Statique;
+    }
+
+    if (stats.isFile()) {
+        Statique.sendRes(res, 200, MIME_TYPES[Path.extname(routeToServe).substring(1)]);
+        var fileStream = Fs.createReadStream(fileName);
+        fileStream.pipe(res);
     }
 
     return Statique;

@@ -13,6 +13,9 @@ Statique
       , "/some/api": function (req, res) {
             res.end("Hello World!");
         }
+      , "/some/test1-alias": function (req, res) {
+            Statique.serveRoute("/test1", req, res);
+        }
     })
   ;
 
