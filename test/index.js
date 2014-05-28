@@ -10,6 +10,9 @@ Statique
         "/":       "/html/index.html"
       , "/test1/": {url: "/html/test1.html"}
       , "/test2": "/html/test2.html"
+      , "/some/api": function (req, res) {
+            res.end("Hello World!");
+        }
     })
   ;
 

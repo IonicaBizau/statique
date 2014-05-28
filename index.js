@@ -55,6 +55,9 @@ Statique.server = function (options) {
  *      "/":       "/html/index.html"
  *    , "/foo/":   { url: "/html/foo.html" }
  *    , "/another-foo": "/html/myfoo.html"
+ *    , "/some/api": function (req, res) {
+ *          res.end("Hello World!");
+ *      }
  *  }
 
  * @return {Object} Statique object
@@ -123,6 +126,11 @@ Statique.serve = function (req, res) {
       , stats = null
       , fileName = Statique._root + route
       ;
+
+    if (typeof route === "function") {
+        route(req, res);
+        return Statique;
+    }
 
     try {
         stats = Fs.lstatSync (fileName);
