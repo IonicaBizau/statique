@@ -4,54 +4,97 @@ Simplified version of node-static module.
 
 ![](https://nodei.co/npm/statique.png)
 
-## Documentation
+## Methods
+## server(options)
 
-<table>
-  <thead>
-    <tr>
-      <th>Function</th>
-      <th>Description</th>
-      <th>Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>server</code></td>
-      <td>Sets the static server.</td>
-      <td>See the example below</td>
-    </tr>
-    <tr>
-      <td><code>setRoutes</code></td>
-      <td>Sets the routes object.</td>
-      <td>See the example below</td>
-    </tr>
-    <tr>
-      <td><code>getRoute</code></td>
-      <td>Get a route providing an url</td>
-      <td>See the example below</td>
-    </tr>
-    <tr>
-      <td><code>exists</code></td>
-      <td>Verifies if the route does exist and returns <code>true</code> or <code>false</code>.</td>
-      <td>See the example below</td>
-    </tr>
-    <tr>
-      <td><code>readFile</code></td>
-      <td>Reads a file from root providing the file path</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><code>serve</code></td>
-      <td>Serves the file specified in routes object.</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><code>sendRes</code></td>
-      <td>Sends a custom content, status code and MIME type</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+Sets the root of the public folder.
+
+### Params:
+
+* **Object** *options* an object containing the following fields:
+
+### Return:
+
+* **Object** Statique object
+
+## setRoutes(routes)
+
+Sets the routes of the website.
+
+### Params:
+
+* **Object** *routes* an object containing fields and values in the following format:
+
+### Return:
+
+* **Object** Statique object
+
+## getRoute(url)
+
+Gets the route by providing an @url
+
+### Params:
+
+* **String** *url* a string representing the url of the page that must be served
+
+### Return:
+
+* **String** the route to the HTML page
+
+## exists(req)
+
+Checks if a route exists.
+
+### Params:
+
+* **Object** *req* the request object
+
+### Return:
+
+* **Boolean** true, if the route was found, else false
+
+## readFile(file, callback)
+
+Reads the file and callbacks the content.
+
+### Params:
+
+* **String** *file* the relative path to the file
+* **Function** *callback* the callback function that will be called with an err
+
+### Return:
+
+* **Buffer** the raw buffer
+
+## serve(req, res)
+
+Serves the HTML file according by providing the @req and @res parameters
+
+### Params:
+
+* **Object** *req* the request object
+* **Object** *res* the response object
+
+### Return:
+
+* **Object** the Statique instance
+
+## sendRes(res, statusCode, mimeType, content)
+
+This function is used for sending custom status messages and content
+If the @content parameter is not provided or is not a string, the response
+will not be ended. The status code and the headers will be set
+
+### Params:
+
+* **Object** *res* the response object
+* **Number** *statusCode* the response status code
+* **String** *mimeType* the response mime type
+* **String** *content* the content that you want to send via response
+
+### Return:
+
+* **Object** the Statique instance
 
 ## Example
 
