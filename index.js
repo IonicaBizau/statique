@@ -15,23 +15,20 @@ const MIME_TYPES = {
 };
 
 /**
- *  Le Statique
- *  -----------
- *  A node-static minimalist alternative.
- *  Licensed under the MIT license. See the LICENSE file.
+ * Le Statique
+ * -----------
+ * A node-static minimalist alternative.
+ * Licensed under the MIT license. See the LICENSE file.
  *
  *
- *  Documentation can be found in README and on GitHub:
- *  http://github.com/IonicaBizau/node-statique
+ * Documentation can be found in README and on GitHub:
+ * http://github.com/IonicaBizau/node-statique
  */
 var Statique = module.exports = {};
 
 /**
- * server
  * Sets the root of the public folder.
  *
- * @name server
- * @function
  * @param {Object} options an object containing the following fields:
  *  - root: string representing the absolute path to the public folder.
  * @return {Object} Statique object
@@ -51,11 +48,8 @@ Statique.server = function (options) {
 };
 
 /**
- * setRoutes
  * Sets the routes of the website.
  *
- * @name setRoutes
- * @function
  * @param {Object} routes an object containing fields and values in the following format:
  *  {
  *      "/":       "/html/index.html"
@@ -71,11 +65,8 @@ Statique.setRoutes = function (routes) {
 };
 
 /**
- * getRoute
  * Gets the route by providing an @url
  *
- * @name getRoute
- * @function
  * @param {String} url a string representing the url of the page that must be served
  * @return {String} the route to the HTML page
  */
@@ -94,11 +85,8 @@ Statique.getRoute = function (url) {
 };
 
 /**
- * exists
  * Checks if a route exists.
  *
- * @name exists
- * @function
  * @param {Object} req the request object
  * @return {Boolean} true, if the route was found, else false
  */
@@ -107,11 +95,8 @@ Statique.exists = function (req) {
 };
 
 /**
- * readFile
  * Reads the file and callbacks the content.
  *
- * @name readFile
- * @function
  * @param {String} file the relative path to the file
  * @param {Function} callback the callback function that will be called with an err
  * (first argument) and the content of the file (second argument)
@@ -125,11 +110,8 @@ Statique.readFile = function (file, callback) {
 };
 
 /**
- * serve
  * Serves the HTML file according by providing the @req and @res parameters
  *
- * @name serve
- * @function
  * @param {Object} req the request object
  * @param {Object} res the response object
  * @return {Object} the Statique instance
@@ -159,13 +141,10 @@ Statique.serve = function (req, res) {
 };
 
 /**
- * sendRes
  * This function is used for sending custom status messages and content
  * If the @content parameter is not provided or is not a string, the response
  * will not be ended. The status code and the headers will be set
  *
- * @name sendRes
- * @function
  * @param {Object} res the response object
  * @param {Number} statusCode the response status code
  * @param {String} mimeType the response mime type
