@@ -128,7 +128,7 @@ This is the content for `index.js` file.
 
 ```js
 // dependencies
-var Statique = require ("statique")
+var Statique = require("../index")
   , http = require('http')
   ;
 
@@ -137,14 +137,23 @@ Statique
     .server({root: __dirname + "/public"})
     .setRoutes({
         "/":       "/html/index.html"
-      , "/test1/": "/html/test1.html"
-      , "/test2/": "/html/test2.html"
+      , "/test1/": {url: "/html/test1.html"}
+      , "/test2": "/html/test2.html"
+      , "/some/api": function (req, res) {
+            res.end("Hello World!");
+        }
+      , "/some/test1-alias": function (req, res) {
+            Statique.serveRoute("/test1", req, res);
+        }
     })
   ;
 
 // create server
 http.createServer(function(req, res) {
-    Statique.serve (req, res);
+    if (req.url === "/500") {
+        return Statique.sendRes(res, 500, "html", "This is supposed to be a 500 Internal server error page");
+    }
+    Statique.serve(req, res);
 }).listen(8000);
 
 // output
@@ -159,6 +168,13 @@ npm test # or ./test.sh
 ```
 
 ## Changelog
+
+### v0.3.0
+ - Added useful comments that are used for generating the documentation
+ - Support functions for routes (see test file)
+ - Added `servRoute` that should serve a route passed in the first argument
+ - Reinited `package.json` file (`npm init`)
+ - Code clean up
 
 ### v0.2.4
  - Accept route objects that contain `url` field
