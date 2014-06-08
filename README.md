@@ -1,6 +1,6 @@
 ![](http://i.imgur.com/Az6vZ06.png)
 
-Simplified version of node-static module.
+Another Node.JS static server module.
 
 ![](https://nodei.co/npm/statique.png)
 
