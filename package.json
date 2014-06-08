@@ -1,28 +1,28 @@
 {
-    "name": "statique"
-  , "version": "0.2.4"
-  , "description": "node-static simplified alternative"
-  , "main": "index.js"
-  , "scripts": {
-        "test": "node test/index.js"
-    }
-  , "repository": {
-        "type": "git"
-      , "url": "git://github.com/IonicaBizau/node-statique.git"
-    }
-  , "keywords": [
-        "node-static"
-      , "serve"
-      , "files"
-      , "html"
-    ]
-  , "author": {
-        "name": "Ionică Bizău"
-      , "email": "bizauionica@gmail.com"
-    }
-  , "license": "MIT"
-  , "bugs": {
-        "url": "https://github.com/IonicaBizau/node-statique/issues"
-    }
-  , "homepage": "https://github.com/IonicaBizau/node-statique"
+  "name": "statique",
+  "version": "0.2.4",
+  "description": "node-static simplified alternative",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/IonicaBizau/node-statique.git"
+  },
+  "keywords": [
+    "node-static",
+    "serve",
+    "files",
+    "html"
+  ],
+  "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IonicaBizau/node-statique/issues"
+  },
+  "homepage": "https://github.com/IonicaBizau/node-statique",
+  "directories": {
+    "test": "test"
+  }
 }
