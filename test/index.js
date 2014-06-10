@@ -16,9 +16,12 @@ Statique
       , "/some/test1-alias": function (req, res) {
             Statique.serveRoute("/test1", req, res);
         }
+      , "/method-test": {
+            get: function (req, res) { res.end("GET"); }
+          , post: function (req, res) { res.end("POST"); }
+        }
     })
   ;
-
 // create server
 http.createServer(function(req, res) {
     if (req.url === "/500") {

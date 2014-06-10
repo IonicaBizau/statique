@@ -59,7 +59,8 @@ Statique.server = function (options) {
  *          res.end("Hello World!");
  *      }
  *  }
-
+ *
+ *  See test file for more examples.
  * @return {Object} Statique object
  */
 Statique.setRoutes = function (routes) {
@@ -71,17 +72,32 @@ Statique.setRoutes = function (routes) {
  * Gets the route by providing an @url
  *
  * @param {String} url a string representing the url of the page that must be served
- * @return {String} the route to the HTML page
+ * @return {Object} the route object that contains the following fields:
+ *  - url
+ *  - handler
  */
 Statique.getRoute = function (url) {
 
+    var route = {};
+
+    // remove slash at the end of the string
     if (url.slice (-1) === "/") {
         url = url.substring (0, url.length - 1);
     }
 
-    var route = Statique._routes[url] || Statique._routes[url + "/"] || null;
-    if (route && route.constructor.name === "Object" && route.url) {
-        route = route.url;
+    debugger;
+    // get the route that was set in the configuration
+    var routeObj = Statique._routes[url] || Statique._routes[url + "/"] || null;
+    route.url = (routeObj || {}).url || routeObj || url;
+
+    // handle url as function
+    if (typeof route.url === "function") {
+        route.handler = route.url;
+        delete route.url;
+    }
+
+    if (routeObj && typeof routeObj.handler === "function") {
+        routeObj.handler = routeObj.handler;
     }
 
     return route;
@@ -164,11 +180,17 @@ Statique.serveRoute = function (route, req, res) {
     var parsedUrl = Url.parse (req.url)
       , routeToServe = Statique.getRoute (route || parsedUrl.pathname) || parsedUrl.pathname
       , stats = null
-      , fileName = Statique._root + routeToServe
+      , fileName = Statique._root + routeToServe.url
+      , method = req.method.toLowerCase()
       ;
 
-    if (typeof routeToServe === "function") {
-        routeToServe(req, res);
+    if (routeToServe.url && typeof routeToServe.url[method] === "function") {
+        routeToServe.url[method](req, res);
+        return Statique;
+    }
+
+    if (typeof routeToServe.handler === "function") {
+        routeToServe.handler(req, res);
         return Statique;
     }
 
@@ -180,7 +202,7 @@ Statique.serveRoute = function (route, req, res) {
     }
 
     if (stats.isFile()) {
-        Statique.sendRes(res, 200, MIME_TYPES[Path.extname(routeToServe).substring(1)]);
+        Statique.sendRes(res, 200, MIME_TYPES[Path.extname(routeToServe.url).substring(1)]);
         var fileStream = Fs.createReadStream(fileName);
         fileStream.pipe(res);
     }
