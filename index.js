@@ -85,7 +85,6 @@ Statique.getRoute = function (url) {
         url = url.substring (0, url.length - 1);
     }
 
-    debugger;
     // get the route that was set in the configuration
     var routeObj = Statique._routes[url] || Statique._routes[url + "/"] || null;
     route.url = (routeObj || {}).url || routeObj || url;
