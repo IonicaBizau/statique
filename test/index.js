@@ -18,7 +18,12 @@ Statique
         }
       , "/method-test": {
             get: function (req, res) { res.end("GET"); }
-          , post: function (req, res) { res.end("POST"); }
+          , post: function (req, res, form) {
+                form.on("done", function (form) {
+                    console.log(form.data);
+                });
+                res.end();
+            }
         }
     })
   ;

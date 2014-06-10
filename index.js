@@ -2,6 +2,7 @@
 var Url = require ("url")
   , Fs  = require ("fs")
   , Path = require("path")
+  , Events = require("events")
   ;
 
 // MIME types
@@ -181,15 +182,32 @@ Statique.serveRoute = function (route, req, res) {
       , stats = null
       , fileName = Statique._root + routeToServe.url
       , method = req.method.toLowerCase()
+      , form = {
+            data: ""
+          , error: ""
+          , _emitter: new Events.EventEmitter()
+        }
       ;
 
+    req.on("data", function (chunk) {
+        form.data += chunk;
+    });
+
+    req.on("error", function (err) {
+        form.error += err;
+    });
+
+    req.on("end", function () {
+        form._emitter.emit("done", form);
+    });
+
     if (routeToServe.url && typeof routeToServe.url[method] === "function") {
-        routeToServe.url[method](req, res);
+        routeToServe.url[method](req, res, form._emitter);
         return Statique;
     }
 
     if (typeof routeToServe.handler === "function") {
-        routeToServe.handler(req, res);
+        routeToServe.handler(req, res, form._emitter);
         return Statique;
     }
 
