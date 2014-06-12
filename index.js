@@ -21,7 +21,6 @@ const MIME_TYPES = {
  * A node-static minimalist alternative.
  * Licensed under the MIT license. See the LICENSE file.
  *
- *
  * Documentation can be found in README and on GitHub:
  * http://github.com/IonicaBizau/node-statique
  */
@@ -253,10 +252,7 @@ Statique.serveRoute = function (route, req, res) {
         }
       ;
 
-    // Conditional GET
-    // If the "If-Modified-Since" or "If-None-Match" headers
-    // match the conditions, send a 304 Not Modified.
-    // Thanks! https://github.com/cloudhead/node-static/blob/4858a8212c580fa831b9614825275f38791df579/lib/node-static.js#L250
+    // file is cached
     if ((clientMTime  || clientETag) &&
         (!clientETag  || clientETag === headers['Etag']) &&
         (!clientMTime || clientMTime >= mtime)) {
