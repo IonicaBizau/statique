@@ -90,7 +90,8 @@ Statique.getRoute = function (url) {
 
     // get the route that was set in the configuration
     var routeObj = Statique._routes[url] || Statique._routes[url + "/"] || null;
-    route.url = (routeObj || {}).url || routeObj || url;
+    route.url = (routeObj || {}).url || routeObj;
+    route.reqUrl = route.url || url;
 
     // handle url as function
     if (typeof route.url === "function") {
@@ -180,11 +181,11 @@ Statique.sendRes = function (res, statusCode, mimeType, content) {
 Statique.serveRoute = function (route, req, res) {
 
     var parsedUrl = Url.parse (req.url)
-      , routeToServe = Statique.getRoute (
+      , routeToServe = Statique.getRoute(
             route || parsedUrl.pathname
         ) || parsedUrl.pathname
       , stats = null
-      , fileName = Statique._root + routeToServe.url
+      , fileName = Statique._root + (routeToServe.url || routeToServe.reqUrl)
       , method = req.method.toLowerCase()
       , form = {
             data: ""
@@ -224,7 +225,7 @@ Statique.serveRoute = function (route, req, res) {
 
     if (stats.isFile()) {
         Statique.sendRes(
-            res, 200, MIME_TYPES[Path.extname(routeToServe.url).substring(1)]
+            res, 200, MIME_TYPES[Path.extname(routeToServe.reqUrl).substring(1)]
         );
         var fileStream = Fs.createReadStream(fileName);
         fileStream.pipe(res);
