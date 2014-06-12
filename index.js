@@ -51,7 +51,8 @@ Statique.server = function (options) {
 /**
  * Sets the routes of the website.
  *
- * @param {Object} routes an object containing fields and values in the following format:
+ * @param {Object} routes an object containing fields and values in the
+ * following format:
  *  {
  *      "/":       "/html/index.html"
  *    , "/foo/":   { url: "/html/foo.html" }
@@ -72,7 +73,8 @@ Statique.setRoutes = function (routes) {
 /**
  * Gets the route by providing an @url
  *
- * @param {String} url a string representing the url of the page that must be served
+ * @param {String} url a string representing the url of the page that
+ * must be served
  * @return {Object} the route object that contains the following fields:
  *  - url
  *  - handler
@@ -117,8 +119,8 @@ Statique.exists = function (req) {
  * Reads the file and callbacks the content.
  *
  * @param {String} file the relative path to the file
- * @param {Function} callback the callback function that will be called with an err
- * (first argument) and the content of the file (second argument)
+ * @param {Function} callback the callback function that will be called with an
+ * err (first argument) and the content of the file (second argument)
  * @return {Buffer} the raw buffer
  */
 Statique.readFile = function (file, callback) {
@@ -178,7 +180,9 @@ Statique.sendRes = function (res, statusCode, mimeType, content) {
 Statique.serveRoute = function (route, req, res) {
 
     var parsedUrl = Url.parse (req.url)
-      , routeToServe = Statique.getRoute (route || parsedUrl.pathname) || parsedUrl.pathname
+      , routeToServe = Statique.getRoute (
+            route || parsedUrl.pathname
+        ) || parsedUrl.pathname
       , stats = null
       , fileName = Statique._root + routeToServe.url
       , method = req.method.toLowerCase()
@@ -219,7 +223,9 @@ Statique.serveRoute = function (route, req, res) {
     }
 
     if (stats.isFile()) {
-        Statique.sendRes(res, 200, MIME_TYPES[Path.extname(routeToServe.url).substring(1)]);
+        Statique.sendRes(
+            res, 200, MIME_TYPES[Path.extname(routeToServe.url).substring(1)]
+        );
         var fileStream = Fs.createReadStream(fileName);
         fileStream.pipe(res);
     }
