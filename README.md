@@ -112,17 +112,20 @@ Serves a provided route.
 File structure:
 ```sh
 $ tree
-root
+.
 ├── index.js
 └── public
     ├── css
     │   └── style.css
-    └── html
-        ├── index.html
-        ├── test1.html
-        └── test2.html
+    ├── html
+    │   ├── index.html
+    │   ├── test1.html
+    │   └── test2.html
+    └── images
+        ├── large.jpg
+        └── README.md
 
-3 directories, 5 files
+4 directories, 7 files
 ```
 
 For the file structure above, the following routes would serve files for each url:
