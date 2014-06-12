@@ -32,6 +32,7 @@ var Statique = module.exports = {};
  *
  * @param {Object} options an object containing the following fields:
  *  - root: string representing the absolute path to the public folder.
+ *  - cache: the number of seconds of cache
  * @return {Object} Statique object
  */
 Statique.server = function (options) {
@@ -45,6 +46,8 @@ Statique.server = function (options) {
     }
 
     Statique._root = options.root;
+    Statique._cache = options.cache || 3600;
+
     return Statique;
 };
 
@@ -151,14 +154,22 @@ Statique.serve = function (req, res) {
  * @param {Number} statusCode the response status code
  * @param {String} mimeType the response mime type
  * @param {String} content the content that you want to send via response
+ * @param {Object} otherHeaders Aditional headers that will be merged with
+ * the basic ones. They have greater priority than basic headers.
  * @return {Object} the Statique instance
  */
-Statique.sendRes = function (res, statusCode, mimeType, content) {
+Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
 
-    res.writeHead(statusCode, {
+    var headers = {
         "Content-Type": mimeType || "plain/text"
       , "Server": "Statique Server"
-    });
+    };
+
+    for (var h in otherHeaders) {
+        headers[h] = otherHeaders[h] || headers[h];
+    }
+
+    res.writeHead(statusCode, headers);
 
     if (typeof content === "string") {
         res.end (content);
@@ -223,13 +234,57 @@ Statique.serveRoute = function (route, req, res) {
         return Statique;
     }
 
-    if (stats.isFile()) {
-        Statique.sendRes(
-            res, 200, MIME_TYPES[Path.extname(routeToServe.reqUrl).substring(1)]
-        );
-        var fileStream = Fs.createReadStream(fileName);
-        fileStream.pipe(res);
+    // no file, no fun
+    if (!stats.isFile()) { return Statique; }
+
+    // cache stuff
+    var mtime = Date.parse(stats.mtime)
+      , clientETag = req.headers['if-none-match']
+      , clientMTime = Date.parse(req.headers['if-modified-since'])
+      , contentType = MIME_TYPES[
+            Path.extname(routeToServe.reqUrl).substring(1)
+        ]
+      , headers = {
+            "Etag": JSON.stringify([stats.ino, stats.size, mtime].join('-'))
+          , "Date": (new Date()).toUTCString()
+          , "Last-Modified": (new Date(stats.mtime)).toUTCString()
+          , "Content-Type": contentType
+          , "Content-Length": stats.size
+        }
+      ;
+
+    // Conditional GET
+    // If the "If-Modified-Since" or "If-None-Match" headers
+    // match the conditions, send a 304 Not Modified.
+    // Thanks! https://github.com/cloudhead/node-static/blob/4858a8212c580fa831b9614825275f38791df579/lib/node-static.js#L250
+    if ((clientMTime  || clientETag) &&
+        (!clientETag  || clientETag === headers['Etag']) &&
+        (!clientMTime || clientMTime >= mtime)) {
+        // 304 response should not contain entity headers
+        ['Content-Encoding',
+         'Content-Language',
+         'Content-Length',
+         'Content-Location',
+         'Content-MD5',
+         'Content-Range',
+         'Content-Type',
+         'Expires',
+         'Last-Modified'].forEach(function(entityHeader) {
+            delete headers[entityHeader];
+        });
+        Statique.sendRes(res, 304, contentType, null, headers);
+        res.end();
+        return Statique;
     }
+
+    // Set cache-control  header
+    headers["cache-control"] = "max-age=" + Statique._cache;
+
+    // file should cached
+    Statique.sendRes(res, 200, contentType, null, headers)
+
+    var fileStream = Fs.createReadStream(fileName);
+    fileStream.pipe(res);
 
     return Statique;
 };
