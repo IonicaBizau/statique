@@ -192,6 +192,10 @@ npm test # or ./test.sh
 
 # Changelog
 
+## `v0.3.2`
+ - Custom headers in response using `sendRes` method
+ - Implemented cache stuff, inspired from [`node-static` module](https://github.com/cloudhead/node-static).
+
 ## `v0.3.1`
  - Support for custom request methods
  - Get form data from post requests
