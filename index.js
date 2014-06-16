@@ -1,6 +1,6 @@
 // Dependencies
-var Url = require ("url")
-  , Fs  = require ("fs")
+var Url = require("url")
+  , Fs  = require("fs")
   , Path = require("path")
   , Events = require("events")
   ;
@@ -40,7 +40,7 @@ Statique.server = function (options) {
             root: options
         }
     }
-    if (options.root.slice (-1) !== "/") {
+    if (options.root.slice(-1) !== "/") {
         options.root += "/";
     }
 
@@ -87,7 +87,7 @@ Statique.getRoute = function (url) {
 
     // remove slash at the end of the string
     if (url.slice (-1) === "/") {
-        url = url.substring (0, url.length - 1);
+        url = url.substring(0, url.length - 1);
     }
 
     // get the route that was set in the configuration
@@ -115,7 +115,7 @@ Statique.getRoute = function (url) {
  * @return {Boolean} true, if the route was found, else false
  */
 Statique.exists = function (req) {
-    return Boolean (Statique.getRoute(Url.parse(req.url).pathname));
+    return Boolean(Statique.getRoute(Url.parse(req.url).pathname));
 };
 
 /**
@@ -127,9 +127,9 @@ Statique.exists = function (req) {
  * @return {Buffer} the raw buffer
  */
 Statique.readFile = function (file, callback) {
-    return Fs.readFile (Statique._root + file, function (err, buffer) {
-        if (err) { return callback (err); }
-        callback (null, buffer.toString())
+    return Fs.readFile(Statique._root + file, function (err, buffer) {
+        if (err) { return callback(err); }
+        callback(null, buffer.toString())
     });
 };
 
@@ -171,7 +171,7 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
     res.writeHead(statusCode, headers);
 
     if (typeof content === "string") {
-        res.end (content);
+        res.end(content);
     }
 
     return Statique;
@@ -190,7 +190,7 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
  */
 Statique.serveRoute = function (route, req, res) {
 
-    var parsedUrl = Url.parse (req.url)
+    var parsedUrl = Url.parse(req.url)
       , routeToServe = Statique.getRoute(
             route || parsedUrl.pathname
         ) || parsedUrl.pathname
@@ -227,9 +227,9 @@ Statique.serveRoute = function (route, req, res) {
     }
 
     try {
-        stats = Fs.lstatSync (fileName);
+        stats = Fs.lstatSync(fileName);
     } catch (e) {
-        Statique.sendRes (res, 404, "html", "404 - Not found");
+        Statique.sendRes(res, 404, "html", "404 - Not found");
         return Statique;
     }
 
