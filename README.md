@@ -200,6 +200,9 @@ npm test # or ./test.sh
 
 # Changelog
 
+## `v0.3.3`
+ - Implemented `redirect` method.
+
 ## `v0.3.2`
  - Custom headers in response using `sendRes` method
  - Implemented cache stuff, inspired from [`node-static` module](https://github.com/cloudhead/node-static).
