@@ -107,10 +107,11 @@ Serves a provided route.
 ### Return:
 * **Object** The Statique instance
 
-## `redirect(newUrl)`
-Redirects the user to the new url passed in the first argument.
+## `redirect(res, newUrl)`
+Redirects the user to the new url passed in the second argument.
 
 ### Params:
+* **String** *res* The response object
 * **String** *newUrl* The new url where the user should be redirected
 
 ### Return:
@@ -199,6 +200,9 @@ npm test # or ./test.sh
 ```
 
 # Changelog
+
+## `v0.3.4`
+ - Fixed `redirect` method
 
 ## `v0.3.3`
  - Implemented `redirect` method.
