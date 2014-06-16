@@ -107,6 +107,15 @@ Serves a provided route.
 ### Return:
 * **Object** The Statique instance
 
+## `redirect(newUrl)`
+Redirects the user to the new url passed in the first argument.
+
+### Params:
+* **String** *newUrl* The new url where the user should be redirected
+
+### Return:
+* **Object** Statique object
+
 # Example
 
 File structure:
