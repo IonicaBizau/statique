@@ -286,14 +286,15 @@ Statique.serveRoute = function (route, req, res) {
 };
 
 /**
- * readirect
+ * redirect
+ * Redirects the user to the new url passed in the first argument.
  *
- * @name readirect
+ * @name redirect
  * @function
  * @param {String} newUrl The new url where the user should be redirected
  * @return {Object} Statique object
  */
-Statique.readirect = function (newUrl) {
+Statique.redirect = function (newUrl) {
     return Statique.sendRes(res, 301, "text", "Redirecting", {
         "location": newUrl
     });
