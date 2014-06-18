@@ -254,5 +254,10 @@ npm test # or ./test.sh
 ## `v0.1.0`
  - Initial release.
 
+# Thanks to
+ - [Silviu Bogan](https://github.com/silviubogan) - that came with the idea to name the project *Statique*.
+ - [`node-static` module](https://github.com/cloudhead/node-static) - I took the caching logic from there
+ - all contributors that will contribute to this project
+
 # Licence
 See LICENSE file.
