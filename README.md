@@ -117,6 +117,38 @@ Redirects the user to the new url passed in the second argument.
 ### Return:
 * **Object** Statique object
 
+## `setErrors(errorRoutes)`
+Sets the error pages
+
+### Params:
+* **Object** *errorRoutes* An object with the error codes and their paths to the HTML files
+
+### Return:
+* **Object** Statique object
+
+## `serveFile(path, statusCode, res, req)`
+Serves a file
+
+### Params:
+* **String|Object** *path* The path to the file that should be served or the route object
+* **Number** *statusCode* The response status code (default: 200)
+* **Object** *res* The response object
+* **Object** *req* The request object
+
+### Return:
+* **Object** Statique object
+
+## `error(res, errCode, errMessage)`
+Sends an error to client
+
+### Params:
+* **Object** *res* The response object
+* **Number** *errCode* The error code
+* **String** *errMessage* The error message
+
+### Return:
+* **Object** Statique object
+
 # Example
 
 File structure:
