@@ -73,6 +73,20 @@ Statique.setRoutes = function (routes) {
 };
 
 /**
+ * setErrors
+ * Sets the error pages
+ *
+ * @name setErrors
+ * @function
+ * @param {Object} errorRoutes An object with the error codes and their paths to the HTML files
+ * @return {Object} Statique object
+ */
+Statique.setErrors = function (errorRoutes) {
+    Statique._errors = errorRoutes;
+    return Statique;
+};
+
+/**
  * Gets the route by providing an @url
  *
  * @param {String} url a string representing the url of the page that
@@ -178,58 +192,36 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
 };
 
 /**
- * serveRoute
- * Serves a provided route.
+ * serveFile
+ * Serves a file
  *
- * @name serveRoute
+ * @name serveFile
  * @function
- * @param {String} route The route that should be served
- * @param {Object} req The request object
+ * @param {String|Object} path The path to the file that should be served or the route object
+ * @param {Number} statusCode The response status code (default: 200)
  * @param {Object} res The response object
- * @return {Object} The Statique instance
+ * @param {Object} req The request object
+ * @return {Object} Statique object
  */
-Statique.serveRoute = function (route, req, res) {
+Statique.serveFile = function (path, statusCode, res, req) {
 
-    var parsedUrl = Url.parse(req.url)
-      , routeToServe = Statique.getRoute(
-            route || parsedUrl.pathname
-        ) || parsedUrl.pathname
-      , stats = null
-      , fileName = Statique._root + (routeToServe.url || routeToServe.reqUrl)
-      , method = req.method.toLowerCase()
-      , form = {
-            data: ""
-          , error: ""
-          , _emitter: new Events.EventEmitter()
-        }
-      ;
+    debugger;
+    res = Object(res);
+    req = Object(req);
+    req.headers = req.headers || {};
 
-    req.on("data", function (chunk) {
-        form.data += chunk;
-    });
-
-    req.on("error", function (err) {
-        form.error += err;
-    });
-
-    req.on("end", function () {
-        form._emitter.emit("done", form);
-    });
-
-    if (routeToServe.url && typeof routeToServe.url[method] === "function") {
-        routeToServe.url[method](req, res, form._emitter);
-        return Statique;
+    if (typeof path === "string") {
+        path = {
+            reqUrl: path
+        };
     }
 
-    if (typeof routeToServe.handler === "function") {
-        routeToServe.handler(req, res, form._emitter);
-        return Statique;
-    }
+    var fullPath = Statique._root + (path.url || path.reqUrl);
 
     try {
-        stats = Fs.lstatSync(fileName);
+        stats = Fs.lstatSync(fullPath);
     } catch (e) {
-        Statique.sendRes(res, 404, "html", "404 - Not found");
+        Statique.error(res, 404, "Not found");
         return Statique;
     }
 
@@ -241,7 +233,7 @@ Statique.serveRoute = function (route, req, res) {
       , clientETag = req.headers['if-none-match']
       , clientMTime = Date.parse(req.headers['if-modified-since'])
       , contentType = MIME_TYPES[
-            Path.extname(routeToServe.reqUrl).substring(1)
+            Path.extname(path.reqUrl).substring(1)
         ]
       , headers = {
             "Etag": JSON.stringify([stats.ino, stats.size, mtime].join('-'))
@@ -277,12 +269,63 @@ Statique.serveRoute = function (route, req, res) {
     headers["cache-control"] = "max-age=" + Statique._cache;
 
     // file should cached
-    Statique.sendRes(res, 200, contentType, null, headers)
+    Statique.sendRes(res, statusCode || 200, contentType, null, headers)
 
-    var fileStream = Fs.createReadStream(fileName);
+    var fileStream = Fs.createReadStream(fullPath);
     fileStream.pipe(res);
 
     return Statique;
+};
+
+/**
+ * serveRoute
+ * Serves a provided route.
+ *
+ * @name serveRoute
+ * @function
+ * @param {String} route The route that should be served
+ * @param {Object} req The request object
+ * @param {Object} res The response object
+ * @return {Object} The Statique instance
+ */
+Statique.serveRoute = function (route, req, res) {
+
+    var parsedUrl = Url.parse(req.url)
+      , routeToServe = Statique.getRoute(
+            route || parsedUrl.pathname
+        ) || parsedUrl.pathname
+      , stats = null
+      , method = req.method.toLowerCase()
+      , form = {
+            data: ""
+          , error: ""
+          , _emitter: new Events.EventEmitter()
+        }
+      ;
+
+    req.on("data", function (chunk) {
+        form.data += chunk;
+    });
+
+    req.on("error", function (err) {
+        form.error += err;
+    });
+
+    req.on("end", function () {
+        form._emitter.emit("done", form);
+    });
+
+    if (routeToServe.url && typeof routeToServe.url[method] === "function") {
+        routeToServe.url[method](req, res, form._emitter);
+        return Statique;
+    }
+
+    if (typeof routeToServe.handler === "function") {
+        routeToServe.handler(req, res, form._emitter);
+        return Statique;
+    }
+
+    return Statique.serveFile(routeToServe, null, res, req);
 };
 
 /**
@@ -299,4 +342,27 @@ Statique.redirect = function (res, newUrl) {
     return Statique.sendRes(res, 301, "text", "Redirecting", {
         "location": newUrl
     });
+};
+
+/**
+ * error
+ * Sends an error to client
+ *
+ * @name error
+ * @function
+ * @param {Object} res The response object
+ * @param {Number} errCode The error code
+ * @param {String} errMessage The error message
+ * @return {Object} Statique object
+ */
+Statique.error = function (res, errCode, errMessage) {
+    var configErrors = Object(Statique._errors)
+      , errPage = configErrors[errCode]
+      ;
+
+    if (errPage) {
+        return Statique.serveFile(errPage, errCode, res);
+    }
+
+    return Statique.sendRes(res, errCode, "text", errMessage);
 };
