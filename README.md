@@ -233,6 +233,12 @@ npm test # or ./test.sh
 
 # Changelog
 
+## `v0.3.5`
+ - Added `error` method
+ - Added `serveFile` method
+ - Added `bug-killer` as dependency and log errors
+ - Try to call custom handlers and catch exceptions, logging them
+
 ## `v0.3.4`
  - Fixed `redirect` method
 
