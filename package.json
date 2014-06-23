@@ -1,6 +1,6 @@
 {
   "name": "statique",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "node-static simplified alternative",
   "main": "index.js",
   "scripts": {
@@ -24,5 +24,9 @@
   "homepage": "https://github.com/IonicaBizau/node-statique",
   "directories": {
     "test": "test"
-  }
+  },
+  "dependencies": {
+    "bug-killer": "^0.1.1"
+  },
+  "devDependencies": {}
 }
