@@ -25,9 +25,13 @@ Statique
                 res.end();
             }
         }
+      , "/crash": {
+            get: function (req, res) { undefined.something; }
+        }
     })
     .setErrors({
         404: "/html/errors/404.html"
+      , 500: "/html/errors/500.html"
     });
   ;
 // create server
