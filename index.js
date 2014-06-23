@@ -205,7 +205,6 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
  */
 Statique.serveFile = function (path, statusCode, res, req) {
 
-    debugger;
     res = Object(res);
     req = Object(req);
     req.headers = req.headers || {};
