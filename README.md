@@ -160,6 +160,9 @@ $ tree
     ├── css
     │   └── style.css
     ├── html
+    │   ├── errors
+    │   │   ├── 404.html
+    │   │   └── 500.html
     │   ├── index.html
     │   ├── test1.html
     │   └── test2.html
@@ -167,16 +170,34 @@ $ tree
         ├── large.jpg
         └── README.md
 
-4 directories, 7 files
+5 directories, 9 files
 ```
 
 For the file structure above, the following routes would serve files for each url:
 
-```JSON
+```js
 {
     "/":       "/html/index.html"
-  , "/test1/": "/html/test1.html"
-  , "/test2/": "/html/test2.html"
+  , "/test1/": {url: "/html/test1.html"}
+  , "/test2": "/html/test2.html"
+  , "/some/api": function (req, res) {
+        res.end("Hello World!");
+    }
+  , "/some/test1-alias": function (req, res) {
+        Statique.serveRoute("/test1", req, res);
+    }
+  , "/method-test": {
+        get: function (req, res) { res.end("GET"); }
+      , post: function (req, res, form) {
+            form.on("done", function (form) {
+                console.log(form.data);
+            });
+            res.end();
+        }
+    }
+  , "/crash": {
+        get: function (req, res) { undefined.something; }
+    }
 }
 ```
 
@@ -184,7 +205,7 @@ This is the content for `index.js` file.
 
 ```js
 // dependencies
-var Statique = require("../index")
+var Statique = require("statique")
   , http = require('http')
   ;
 
@@ -210,15 +231,17 @@ Statique
                 res.end();
             }
         }
+      , "/crash": {
+            get: function (req, res) { undefined.something; }
+        }
     })
+    .setErrors({
+        404: "/html/errors/404.html"
+      , 500: "/html/errors/500.html"
+    });
   ;
 // create server
-http.createServer(function(req, res) {
-    if (req.url === "/500") {
-        return Statique.sendRes(res, 500, "html", "This is supposed to be a 500 Internal server error page");
-    }
-    Statique.serve(req, res);
-}).listen(8000);
+http.createServer(Statique.serve).listen(8000);
 
 // output
 console.log("Listening on 8000.");
