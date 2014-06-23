@@ -26,6 +26,9 @@ Statique
             }
         }
     })
+    .setErrors({
+        404: "/html/errors/404.html"
+    });
   ;
 // create server
 http.createServer(function(req, res) {
