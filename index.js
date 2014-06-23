@@ -3,6 +3,7 @@ var Url = require("url")
   , Fs  = require("fs")
   , Path = require("path")
   , Events = require("events")
+  , Debug = require("bug-killer")
   ;
 
 // MIME types
@@ -315,12 +316,22 @@ Statique.serveRoute = function (route, req, res) {
     });
 
     if (routeToServe.url && typeof routeToServe.url[method] === "function") {
-        routeToServe.url[method](req, res, form._emitter);
+        try {
+            routeToServe.url[method](req, res, form._emitter);
+        } catch (e) {
+            Statique.error(res, 500, "Internal Server Error");
+            Debug.log(e.stack, "error");
+        }
         return Statique;
     }
 
     if (typeof routeToServe.handler === "function") {
-        routeToServe.handler(req, res, form._emitter);
+        try {
+            routeToServe.handler(req, res, form._emitter);
+        } catch (e) {
+            Statique.error(res, 500, "Internal Server Error");
+            Debug.log(e.stack, "error");
+        }
         return Statique;
     }
 
