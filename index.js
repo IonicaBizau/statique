@@ -109,6 +109,7 @@ Statique.getRoute = function (url) {
     var routeObj = Statique._routes[url] || Statique._routes[url + "/"] || null;
     route.url = (routeObj || {}).url || routeObj;
     route.reqUrl = route.url || url;
+    route._data = routeObj;
 
     // handle url as function
     if (typeof route.url === "function") {
