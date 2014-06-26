@@ -222,7 +222,7 @@ Statique.serveFile = function (path, statusCode, res, req) {
     try {
         stats = Fs.lstatSync(fullPath);
     } catch (e) {
-        Statique.error(res, 404, "Not found");
+        Statique.error(req, res, 404, "Not found");
         return Statique;
     }
 
@@ -320,7 +320,7 @@ Statique.serveRoute = function (route, req, res) {
         try {
             routeToServe.url[method](req, res, form._emitter);
         } catch (e) {
-            Statique.error(res, 500, "Internal Server Error");
+            Statique.error(req, res, 500, "Internal Server Error");
             Debug.log(e.stack, "error");
         }
         return Statique;
@@ -330,7 +330,7 @@ Statique.serveRoute = function (route, req, res) {
         try {
             routeToServe.handler(req, res, form._emitter);
         } catch (e) {
-            Statique.error(res, 500, "Internal Server Error");
+            Statique.error(req, res, 500, "Internal Server Error");
             Debug.log(e.stack, "error");
         }
         return Statique;
@@ -366,13 +366,13 @@ Statique.redirect = function (res, newUrl) {
  * @param {String} errMessage The error message
  * @return {Object} Statique object
  */
-Statique.error = function (res, errCode, errMessage) {
+Statique.error = function (req, res, errCode, errMessage) {
     var configErrors = Object(Statique._errors)
       , errPage = configErrors[errCode]
       ;
 
     if (errPage) {
-        return Statique.serveFile(errPage, errCode, res);
+        return Statique.serveFile(errPage, errCode, res, req);
     }
 
     return Statique.sendRes(res, errCode, "text", errMessage);
