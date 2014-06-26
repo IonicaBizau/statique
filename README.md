@@ -134,6 +134,7 @@ Serves a file
 * **Number** *statusCode* The response status code (default: 200)
 * **Object** *res* The response object
 * **Object** *req* The request object
+* **Object** *additionalheaders* Additional headers that should be sent
 
 ### Return:
 * **Object** Statique object
@@ -142,6 +143,7 @@ Serves a file
 Sends an error to client
 
 ### Params:
+* **Object** *req* The request object
 * **Object** *res* The response object
 * **Number** *errCode* The error code
 * **String** *errMessage* The error message
