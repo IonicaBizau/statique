@@ -258,6 +258,12 @@ npm test # or ./test.sh
 
 # Changelog
 
+## `v0.3.6`
+ - Added a `additionalHeaders` parameter to `serveFile` method
+ - Added `req` (request object) as first parameter in `error` method.
+ - Error pages are not cached anymore
+ - The passed data in `setRoutes` is attached in `_data` field of the object returned by `getRoute` method.
+
 ## `v0.3.5`
  - Added `error` method
  - Added `serveFile` method
