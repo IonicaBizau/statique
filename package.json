@@ -1,6 +1,6 @@
 {
   "name": "statique",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "node-static simplified alternative",
   "main": "index.js",
   "scripts": {
