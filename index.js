@@ -203,6 +203,7 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
  * @param {Number} statusCode The response status code (default: 200)
  * @param {Object} res The response object
  * @param {Object} req The request object
+ * @param {Object} additionalheaders Additional headers that should be sent
  * @return {Object} Statique object
  */
 Statique.serveFile = function (path, statusCode, res, req, additionalHeaders) {
@@ -369,6 +370,7 @@ Statique.redirect = function (res, newUrl) {
  *
  * @name error
  * @function
+ * @param {Object} req The request object
  * @param {Object} res The response object
  * @param {Number} errCode The error code
  * @param {String} errMessage The error message
