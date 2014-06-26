@@ -205,7 +205,7 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
  * @param {Object} req The request object
  * @return {Object} Statique object
  */
-Statique.serveFile = function (path, statusCode, res, req) {
+Statique.serveFile = function (path, statusCode, res, req, additionalHeaders) {
 
     res = Object(res);
     req = Object(req);
@@ -261,6 +261,11 @@ Statique.serveFile = function (path, statusCode, res, req) {
          'Last-Modified'].forEach(function(entityHeader) {
             delete headers[entityHeader];
         });
+
+        for (var aH in additionalHeaders) {
+            headers[aH] = additionalHeaders[aH] || headers[aH];
+        }
+
         Statique.sendRes(res, 304, contentType, null, headers);
         res.end();
         return Statique;
@@ -268,6 +273,9 @@ Statique.serveFile = function (path, statusCode, res, req) {
 
     // Set cache-control  header
     headers["cache-control"] = "max-age=" + Statique._cache;
+    for (var aH in additionalHeaders) {
+        headers[aH] = additionalHeaders[aH] || headers[aH];
+    }
 
     // file should cached
     Statique.sendRes(res, statusCode || 200, contentType, null, headers)
@@ -372,7 +380,9 @@ Statique.error = function (req, res, errCode, errMessage) {
       ;
 
     if (errPage) {
-        return Statique.serveFile(errPage, errCode, res, req);
+        return Statique.serveFile(errPage, errCode, res, req, {
+            "cache-control": "no-cache"
+        });
     }
 
     return Statique.sendRes(res, errCode, "text", errMessage);
