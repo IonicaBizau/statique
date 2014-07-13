@@ -227,9 +227,10 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
  * @param {Object} res The response object
  * @param {Object} req The request object
  * @param {Object} additionalheaders Additional headers that should be sent
+ * @param {String} customRoot Path to the custom root (e.g. "/")
  * @return {Object} Statique object
  */
-Statique.serveFile = function (path, statusCode, res, req, additionalHeaders) {
+Statique.serveFile = function (path, statusCode, res, req, additionalHeaders, customRoot) {
 
     res = Object(res);
     req = Object(req);
@@ -241,7 +242,7 @@ Statique.serveFile = function (path, statusCode, res, req, additionalHeaders) {
         };
     }
 
-    var fullPath = Statique._root + (path.url || path.reqUrl);
+    var fullPath = (customRoot ? customRoot : Statique._root) + (path.url || path.reqUrl);
 
     try {
         stats = Fs.lstatSync(fullPath);
