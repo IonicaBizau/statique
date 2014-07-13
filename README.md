@@ -207,7 +207,7 @@ This is the content for `index.js` file.
 
 ```js
 // dependencies
-var Statique = require("statique")
+var Statique = require("../index")
   , http = require('http')
   ;
 
@@ -236,12 +236,26 @@ Statique
       , "/crash": {
             get: function (req, res) { undefined.something; }
         }
+      , "\/anynumber\-[0-9]": {
+            type: "regexp"
+          , handler: function (req, res) {
+                res.end("Hi");
+            }
+        }
+      , "r1": {
+            type: "regexp"
+          , regexp: /anyletter\-[a-z]/i
+          , handler: function (req, res) {
+                res.end("Case insensitive is important. ;)");
+            }
+        }
     })
     .setErrors({
         404: "/html/errors/404.html"
       , 500: "/html/errors/500.html"
     });
   ;
+
 // create server
 http.createServer(Statique.serve).listen(8000);
 
@@ -253,7 +267,8 @@ console.log("Listening on 8000.");
 
 ```
 npm install statique
-npm test # or ./test.sh
+cd node_modules/statique
+npm test
 ```
 
 # Changelog
