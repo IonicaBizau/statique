@@ -4,6 +4,9 @@ var Url = require("url")
   , Path = require("path")
   , Events = require("events")
   , Debug = require("bug-killer")
+  , RegexpParser = function (str) {
+        return new RegExp(str);
+    }
   ;
 
 // MIME types
@@ -70,6 +73,17 @@ Statique.server = function (options) {
  */
 Statique.setRoutes = function (routes) {
     Statique._routes = routes;
+    Statique._regexpRoutes = [];
+    for (var r in routes) {
+        var cRoute = routes[r];
+        if ((cRoute.type || "").toLowerCase() === "regexp") {
+            if ((cRoute.regexp || {}).constructor.name !== "RegExp") {
+                cRoute.regexp = RegexpParser(r);
+            }
+            Statique._regexpRoutes.push(cRoute);
+            delete cRoute[r];
+        }
+    }
     return Statique;
 };
 
@@ -110,6 +124,17 @@ Statique.getRoute = function (url) {
     route.url = (routeObj || {}).url || routeObj;
     route.reqUrl = route.url || url;
     route._data = routeObj;
+
+    // Handle regexp routes
+    for (var i = 0, cRegexpRoute; i < Statique._regexpRoutes.length; ++i) {
+        cRegexpRoute = Statique._regexpRoutes[i];
+        if (cRegexpRoute.regexp.test(url)) {
+            for (var k in cRegexpRoute) {
+                route[k] = cRegexpRoute[k];
+            }
+            break;
+        }
+    }
 
     // handle url as function
     if (typeof route.url === "function") {
