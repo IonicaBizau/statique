@@ -28,6 +28,19 @@ Statique
       , "/crash": {
             get: function (req, res) { undefined.something; }
         }
+      , "\/anynumber\-[0-9]": {
+            type: "regexp"
+          , handler: function (req, res) {
+                res.end("Hi");
+            }
+        }
+      , "r1": {
+            type: "regexp"
+          , regexp: /anyletter\-[a-z]/i
+          , handler: function (req, res) {
+                res.end("Case insensitive is important. ;)");
+            }
+        }
     })
     .setErrors({
         404: "/html/errors/404.html"
