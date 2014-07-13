@@ -258,6 +258,9 @@ npm test # or ./test.sh
 
 # Changelog
 
+## `v0.3.7`
+ - Regex routes
+
 ## `v0.3.6`
  - Added a `additionalHeaders` parameter to `serveFile` method
  - Added `req` (request object) as first parameter in `error` method.
