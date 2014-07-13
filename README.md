@@ -135,6 +135,7 @@ Serves a file
 * **Object** *res* The response object
 * **Object** *req* The request object
 * **Object** *additionalheaders* Additional headers that should be sent
+* **String** *customRoot* Custom root path
 
 ### Return:
 * **Object** Statique object
