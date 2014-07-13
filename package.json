@@ -1,32 +1,32 @@
 {
   "name": "statique",
   "version": "0.3.6",
-  "description": "node-static simplified alternative",
+  "description": "Another Node.JS static server module. ",
   "main": "index.js",
-  "scripts": {
-    "test": "node test/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/IonicaBizau/node-statique.git"
-  },
-  "keywords": [
-    "node-static",
-    "serve",
-    "files",
-    "html"
-  ],
-  "author": "Ionică Bizău <bizauionica@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/IonicaBizau/node-statique/issues"
-  },
-  "homepage": "https://github.com/IonicaBizau/node-statique",
   "directories": {
     "test": "test"
   },
   "dependencies": {
     "bug-killer": "^0.1.1"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IonicaBizau/node-statique.git"
+  },
+  "keywords": [
+    "static",
+    "server",
+    "node",
+    "http"
+  ],
+  "author": "Ionică Bizău <bizauionica@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IonicaBizau/node-statique/issues"
+  },
+  "homepage": "https://github.com/IonicaBizau/node-statique"
 }
