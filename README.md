@@ -276,6 +276,7 @@ npm test
 
 ## `v0.3.7`
  - Regex routes
+ - `customRoot` parameter to `serveFile` method
 
 ## `v0.3.6`
  - Added a `additionalHeaders` parameter to `serveFile` method
