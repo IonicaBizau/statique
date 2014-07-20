@@ -126,7 +126,7 @@ Sets the error pages
 ### Return:
 * **Object** Statique object
 
-## `serveFile(path, statusCode, res, req)`
+## `serveFile(path, statusCode, res, req, additionalHeaders, customRoot)`
 Serves a file
 
 ### Params:
@@ -134,13 +134,13 @@ Serves a file
 * **Number** *statusCode* The response status code (default: 200)
 * **Object** *res* The response object
 * **Object** *req* The request object
-* **Object** *additionalheaders* Additional headers that should be sent
+* **Object** *additionalHeaders* Additional headers that should be sent
 * **String** *customRoot* Custom root path
 
 ### Return:
 * **Object** Statique object
 
-## `error(res, errCode, errMessage)`
+## `error(req, res, errCode, errMessage)`
 Sends an error to client
 
 ### Params:
