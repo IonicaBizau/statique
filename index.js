@@ -11,7 +11,7 @@ var Url = require("url")
 /**
  * Le Statique
  * -----------
- * A node-static minimalist alternative.
+ * Another Node.JS static server module.
  * Licensed under the MIT license. See the LICENSE file.
  *
  * Documentation can be found in README and on GitHub:
@@ -22,12 +22,15 @@ var Statique = module.exports = {};
 /**
  * Sets the root of the public folder.
  *
+ * @name server
+ * @function
  * @param {Object} options an object containing the following fields:
  *  - root: string representing the absolute path to the public folder.
  *  - cache: the number of seconds of cache
  * @return {Object} Statique object
  */
 Statique.server = function (options) {
+
     if (typeof options === "string") {
         options = {
             root: options
@@ -46,6 +49,8 @@ Statique.server = function (options) {
 /**
  * Sets the routes of the website.
  *
+ * @name setRoutes
+ * @function
  * @param {Object} routes an object containing fields and values in the
  * following format:
  *  {
@@ -56,13 +61,14 @@ Statique.server = function (options) {
  *          res.end("Hello World!");
  *      }
  *  }
- *
  *  See test file for more examples.
  * @return {Object} Statique object
  */
 Statique.setRoutes = function (routes) {
+
     Statique._routes = routes;
     Statique._regexpRoutes = [];
+
     for (var r in routes) {
         var cRoute = routes[r];
         if ((cRoute.type || "").toLowerCase() === "regexp") {
@@ -73,11 +79,11 @@ Statique.setRoutes = function (routes) {
             delete cRoute[r];
         }
     }
+
     return Statique;
 };
 
 /**
- * setErrors
  * Sets the error pages
  *
  * @name setErrors
@@ -93,6 +99,8 @@ Statique.setErrors = function (errorRoutes) {
 /**
  * Gets the route by providing an @url
  *
+ * @name getRoute
+ * @function
  * @param {String} url a string representing the url of the page that
  * must be served
  * @return {Object} the route object that contains the following fields:
@@ -141,6 +149,8 @@ Statique.getRoute = function (url) {
 /**
  * Checks if a route exists.
  *
+ * @name exists
+ * @function
  * @param {Object} req the request object
  * @return {Boolean} true, if the route was found, else false
  */
@@ -151,6 +161,8 @@ Statique.exists = function (req) {
 /**
  * Reads the file and callbacks the content.
  *
+ * @name readFile
+ * @function
  * @param {String} file the relative path to the file
  * @param {Function} callback the callback function that will be called with an
  * err (first argument) and the content of the file (second argument)
@@ -164,8 +176,10 @@ Statique.readFile = function (file, callback) {
 };
 
 /**
- * Serves the HTML file according by providing the @req and @res parameters
+ * Serves the HTML file by providing the @req and @res parameters
  *
+ * @name serve
+ * @function
  * @param {Object} req the request object
  * @param {Object} res the response object
  * @return {Object} the Statique instance
@@ -179,6 +193,8 @@ Statique.serve = function (req, res) {
  * If the @content parameter is not provided or is not a string, the response
  * will not be ended. The status code and the headers will be set
  *
+ * @name sendRes
+ * @function
  * @param {Object} res the response object
  * @param {Number} statusCode the response status code
  * @param {String} mimeType the response mime type
@@ -208,16 +224,16 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
 };
 
 /**
- * serveFile
  * Serves a file
  *
  * @name serveFile
  * @function
- * @param {String|Object} path The path to the file that should be served or the route object
+ * @param {String|Object} path The path to the file that should be served or the
+ * route object
  * @param {Number} statusCode The response status code (default: 200)
  * @param {Object} res The response object
  * @param {Object} req The request object
- * @param {Object} additionalheaders Additional headers that should be sent
+ * @param {Object} additionalHeaders Additional headers that should be sent
  * @param {String} customRoot Path to the custom root (e.g. "/")
  * @return {Object} Statique object
  */
@@ -301,7 +317,6 @@ Statique.serveFile = function (path, statusCode, res, req, additionalHeaders, cu
 };
 
 /**
- * serveRoute
  * Serves a provided route.
  *
  * @name serveRoute
@@ -362,7 +377,6 @@ Statique.serveRoute = function (route, req, res) {
 };
 
 /**
- * redirect
  * Redirects the user to the new url passed in the second argument.
  *
  * @name redirect
@@ -378,7 +392,6 @@ Statique.redirect = function (res, newUrl) {
 };
 
 /**
- * error
  * Sends an error to client
  *
  * @name error
