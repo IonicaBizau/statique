@@ -5,17 +5,8 @@ var Url = require("url")
   , Events = require("events")
   , Debug = require("bug-killer")
   , RegexpParser = require("regex-parser")
+  , Mime = require("mime")
   ;
-
-// MIME types
-const MIME_TYPES = {
-    "html": "text/html"
-  , "jpeg": "image/jpeg"
-  , "jpg":  "image/jpeg"
-  , "png":  "image/png"
-  , "js":   "text/javascript"
-  , "css":  "text/css"
-};
 
 /**
  * Le Statique
@@ -258,9 +249,7 @@ Statique.serveFile = function (path, statusCode, res, req, additionalHeaders, cu
     var mtime = Date.parse(stats.mtime)
       , clientETag = req.headers['if-none-match']
       , clientMTime = Date.parse(req.headers['if-modified-since'])
-      , contentType = MIME_TYPES[
-            Path.extname(path.reqUrl).substring(1)
-        ]
+      , contentType = Mime.lookup(path.reqUrl)
       , headers = {
             "Etag": JSON.stringify([stats.ino, stats.size, mtime].join('-'))
           , "Date": (new Date()).toUTCString()
