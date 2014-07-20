@@ -106,6 +106,7 @@ Statique.setErrors = function (errorRoutes) {
  * @return {Object} the route object that contains the following fields:
  *  - url
  *  - handler
+ *  - _data (original route from config)
  */
 Statique.getRoute = function (url) {
 
