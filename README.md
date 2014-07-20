@@ -10,8 +10,8 @@ Sets the root of the public folder.
 
 ### Params:
 * **Object** *options* an object containing the following fields:
- - root: string representing the absolute path to the public folder.
- - cache: the number of seconds of cache
+  - root: string representing the absolute path to the public folder.
+  - cache: the number of seconds of cache
 
 ### Return:
 * **Object** Statique object
@@ -21,19 +21,30 @@ Sets the routes of the website.
 
 ### Params:
 * **Object** *routes* an object containing fields and values in the
-  following format:
+following format:
+
 ```js
-{
-    "/":       "/html/index.html"
-  , "/foo/":   { url: "/html/foo.html" }
-  , "/another-foo": "/html/myfoo.html"
-  , "/some/api": function (req, res) {
-        res.end("Hello World!");
-    }
-}
+  {
+      "/":       "/html/index.html"
+    , "/foo/":   { url: "/html/foo.html" }
+    , "/another-foo": "/html/myfoo.html"
+    , "/some/api": function (req, res) {
+          res.end("Hello World!");
+      }
+  }
 ```
 
- See test file for more examples.
+See test file for more examples.
+
+### Return:
+* **Object** Statique object
+
+## `setErrors(errorRoutes)`
+Sets the error pages
+
+### Params:
+* **Object** *errorRoutes* An object with the error codes and their paths to the HTML files
+
 ### Return:
 * **Object** Statique object
 
@@ -42,12 +53,13 @@ Gets the route by providing an @url
 
 ### Params:
 * **String** *url* a string representing the url of the page that
-  must be served
+must be served
 
 ### Return:
 * **Object** the route object that contains the following fields:
   - url
   - handler
+  - _data (original route from config)
 
 ## `exists(req)`
 Checks if a route exists.
@@ -64,13 +76,13 @@ Reads the file and callbacks the content.
 ### Params:
 * **String** *file* the relative path to the file
 * **Function** *callback* the callback function that will be called with an
-  err (first argument) and the content of the file (second argument)
+err (first argument) and the content of the file (second argument)
 
 ### Return:
 * **Buffer** the raw buffer
 
 ## `serve(req, res)`
-Serves the HTML file according by providing the @req and @res parameters
+Serves the HTML file by providing the @req and @res parameters
 
 ### Params:
 * **Object** *req* the request object
@@ -90,57 +102,58 @@ will not be ended. The status code and the headers will be set
 * **String** *mimeType* the response mime type
 * **String** *content* the content that you want to send via response
 * **Object** *otherHeaders* Aditional headers that will be merged with
-  the basic ones. They have greater priority than basic headers.
+the basic ones. They have greater priority than basic headers.
 
 ### Return:
+
 * **Object** the Statique instance
 
+## `serveFile(path, statusCode, res, req, additionalHeaders, customRoot)`
+
+Serves a file
+
+### Params:
+
+* **String|Object** *path* The path to the file that should be served or the
+route object
+* **Number** *statusCode* The response status code (default: 200)
+* **Object** *res* The response object
+* **Object** *req* The request object
+* **Object** *additionalHeaders* Additional headers that should be sent
+* **String** *customRoot* Path to the custom root (e.g. "/")
+
+### Return:
+
+* **Object** Statique object
+
 ## `serveRoute(route, req, res)`
-serveRoute
+
 Serves a provided route.
 
 ### Params:
+
 * **String** *route* The route that should be served
 * **Object** *req* The request object
 * **Object** *res* The response object
 
 ### Return:
+
 * **Object** The Statique instance
 
 ## `redirect(res, newUrl)`
+
 Redirects the user to the new url passed in the second argument.
 
 ### Params:
+
 * **String** *res* The response object
 * **String** *newUrl* The new url where the user should be redirected
 
 ### Return:
+
 * **Object** Statique object
 
-## `setErrors(errorRoutes)`
-Sets the error pages
-
-### Params:
-* **Object** *errorRoutes* An object with the error codes and their paths to the HTML files
-
-### Return:
-* **Object** Statique object
-
-## `serveFile(path, statusCode, res, req)`
-Serves a file
-
-### Params:
-* **String|Object** *path* The path to the file that should be served or the route object
-* **Number** *statusCode* The response status code (default: 200)
-* **Object** *res* The response object
-* **Object** *req* The request object
-* **Object** *additionalheaders* Additional headers that should be sent
-* **String** *customRoot* Custom root path
-
-### Return:
-* **Object** Statique object
-
-## `error(res, errCode, errMessage)`
+## `error(req, res, errCode, errMessage)`
 Sends an error to client
 
 ### Params:
