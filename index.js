@@ -17,7 +17,9 @@ var Url = require("url")
  * Documentation can be found in README and on GitHub:
  * http://github.com/IonicaBizau/node-statique
  */
-var Statique = module.exports = {};
+var Statique = module.exports = function (options) {
+    return this.server(options);
+};
 
 /**
  * Sets the root of the public folder.
@@ -29,7 +31,9 @@ var Statique = module.exports = {};
  *  - cache: the number of seconds of cache
  * @return {Object} Statique object
  */
-Statique.server = function (options) {
+Statique.prototype.server = function (options) {
+
+    var self = this;
 
     if (typeof options === "string") {
         options = {
@@ -40,10 +44,10 @@ Statique.server = function (options) {
         options.root += "/";
     }
 
-    Statique._root = options.root;
-    Statique._cache = options.cache || 3600;
+    self._root = options.root;
+    self._cache = options.cache || 3600;
 
-    return Statique;
+    return self;
 };
 
 /**
@@ -64,10 +68,12 @@ Statique.server = function (options) {
  *  See test file for more examples.
  * @return {Object} Statique object
  */
-Statique.setRoutes = function (routes) {
+Statique.prototype.setRoutes = function (routes) {
 
-    Statique._routes = routes;
-    Statique._regexpRoutes = [];
+    var self = this;
+
+    self._routes = routes;
+    self._regexpRoutes = [];
 
     for (var r in routes) {
         var cRoute = routes[r];
@@ -75,12 +81,12 @@ Statique.setRoutes = function (routes) {
             if ((cRoute.regexp || {}).constructor.name !== "RegExp") {
                 cRoute.regexp = RegexpParser.parse(r);
             }
-            Statique._regexpRoutes.push(cRoute);
+            self._regexpRoutes.push(cRoute);
             delete cRoute[r];
         }
     }
 
-    return Statique;
+    return self;
 };
 
 /**
@@ -91,9 +97,10 @@ Statique.setRoutes = function (routes) {
  * @param {Object} errorRoutes An object with the error codes and their paths to the HTML files
  * @return {Object} Statique object
  */
-Statique.setErrors = function (errorRoutes) {
-    Statique._errors = errorRoutes;
-    return Statique;
+Statique.prototype.setErrors = function (errorRoutes) {
+    var self = this;
+    self._errors = errorRoutes;
+    return self;
 };
 
 /**
@@ -108,9 +115,11 @@ Statique.setErrors = function (errorRoutes) {
  *  - handler
  *  - _data (original route from config)
  */
-Statique.getRoute = function (url) {
+Statique.prototype.getRoute = function (url) {
 
-    var route = {};
+    var self = this
+      , route = {}
+      ;
 
     // remove slash at the end of the string
     if (url.slice (-1) === "/") {
@@ -118,14 +127,14 @@ Statique.getRoute = function (url) {
     }
 
     // get the route that was set in the configuration
-    var routeObj = Statique._routes[url] || Statique._routes[url + "/"] || null;
+    var routeObj = self._routes[url] || self._routes[url + "/"] || null;
     route.url = (routeObj || {}).url || routeObj;
     route.reqUrl = route.url || url;
     route._data = routeObj;
 
     // Handle regexp routes
-    for (var i = 0, cRegexpRoute; i < Statique._regexpRoutes.length; ++i) {
-        cRegexpRoute = Statique._regexpRoutes[i];
+    for (var i = 0, cRegexpRoute; i < self._regexpRoutes.length; ++i) {
+        cRegexpRoute = self._regexpRoutes[i];
         if (cRegexpRoute.regexp.test(url)) {
             for (var k in cRegexpRoute) {
                 route[k] = cRegexpRoute[k];
@@ -155,8 +164,8 @@ Statique.getRoute = function (url) {
  * @param {Object} req the request object
  * @return {Boolean} true, if the route was found, else false
  */
-Statique.exists = function (req) {
-    return Boolean(Statique.getRoute(Url.parse(req.url).pathname));
+Statique.prototype.exists = function (req) {
+    return Boolean(this.getRoute(Url.parse(req.url).pathname));
 };
 
 /**
@@ -169,8 +178,9 @@ Statique.exists = function (req) {
  * err (first argument) and the content of the file (second argument)
  * @return {Buffer} the raw buffer
  */
-Statique.readFile = function (file, callback) {
-    return Fs.readFile(Statique._root + file, function (err, buffer) {
+Statique.prototype.readFile = function (file, callback) {
+    var self = this;
+    return Fs.readFile(self._root + file, function (err, buffer) {
         if (err) { return callback(err); }
         callback(null, buffer.toString())
     });
@@ -185,8 +195,8 @@ Statique.readFile = function (file, callback) {
  * @param {Object} res the response object
  * @return {Object} the Statique instance
  */
-Statique.serve = function (req, res) {
-    return Statique.serveRoute(undefined, req, res);
+Statique.prototype.serve = function (req, res) {
+    return this.serveRoute(undefined, req, res);
 };
 
 /**
@@ -204,12 +214,14 @@ Statique.serve = function (req, res) {
  * the basic ones. They have greater priority than basic headers.
  * @return {Object} the Statique instance
  */
-Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
+Statique.prototype.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
 
-    var headers = {
-        "Content-Type": mimeType || "plain/text"
-      , "Server": "Statique Server"
-    };
+    var self = this
+      , headers = {
+            "Content-Type": mimeType || "plain/text"
+          , "Server": "Statique Server"
+        }
+      ;
 
     for (var h in otherHeaders) {
         headers[h] = otherHeaders[h] || headers[h];
@@ -221,7 +233,7 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
         res.end(content);
     }
 
-    return Statique;
+    return self;
 };
 
 /**
@@ -238,8 +250,9 @@ Statique.sendRes = function (res, statusCode, mimeType, content, otherHeaders) {
  * @param {String} customRoot Path to the custom root (e.g. "/")
  * @return {Object} Statique object
  */
-Statique.serveFile = function (path, statusCode, res, req, additionalHeaders, customRoot) {
+Statique.prototype.serveFile = function (path, statusCode, res, req, additionalHeaders, customRoot) {
 
+    var self = this;
     res = Object(res);
     req = Object(req);
     req.headers = req.headers || {};
@@ -250,17 +263,17 @@ Statique.serveFile = function (path, statusCode, res, req, additionalHeaders, cu
         };
     }
 
-    var fullPath = (customRoot ? customRoot : Statique._root) + (path.url || path.reqUrl);
+    var fullPath = (customRoot ? customRoot : self._root) + (path.url || path.reqUrl);
 
     try {
         stats = Fs.lstatSync(fullPath);
     } catch (e) {
-        Statique.error(req, res, 404, "Not found");
-        return Statique;
+        self.error(req, res, 404, "Not found");
+        return self;
     }
 
     // no file, no fun
-    if (!stats.isFile()) { return Statique; }
+    if (!stats.isFile()) { return self; }
 
     // cache stuff
     var mtime = Date.parse(stats.mtime)
@@ -297,24 +310,24 @@ Statique.serveFile = function (path, statusCode, res, req, additionalHeaders, cu
             headers[aH] = additionalHeaders[aH] || headers[aH];
         }
 
-        Statique.sendRes(res, 304, contentType, null, headers);
+        self.sendRes(res, 304, contentType, null, headers);
         res.end();
-        return Statique;
+        return self;
     }
 
     // Set cache-control  header
-    headers["cache-control"] = "max-age=" + Statique._cache;
+    headers["cache-control"] = "max-age=" + self._cache;
     for (var aH in additionalHeaders) {
         headers[aH] = additionalHeaders[aH] || headers[aH];
     }
 
     // file should cached
-    Statique.sendRes(res, statusCode || 200, contentType, null, headers)
+    self.sendRes(res, statusCode || 200, contentType, null, headers)
 
     var fileStream = Fs.createReadStream(fullPath);
     fileStream.pipe(res);
 
-    return Statique;
+    return self;
 };
 
 /**
@@ -327,10 +340,11 @@ Statique.serveFile = function (path, statusCode, res, req, additionalHeaders, cu
  * @param {Object} res The response object
  * @return {Object} The Statique instance
  */
-Statique.serveRoute = function (route, req, res) {
+Statique.prototype.serveRoute = function (route, req, res) {
 
-    var parsedUrl = Url.parse(req.url)
-      , routeToServe = Statique.getRoute(
+    var self = this
+      , parsedUrl = Url.parse(req.url)
+      , routeToServe = self.getRoute(
             route || parsedUrl.pathname
         ) || parsedUrl.pathname
       , stats = null
@@ -358,23 +372,23 @@ Statique.serveRoute = function (route, req, res) {
         try {
             routeToServe.url[method](req, res, form._emitter);
         } catch (e) {
-            Statique.error(req, res, 500, "Internal Server Error");
+            self.error(req, res, 500, "Internal Server Error");
             Debug.log(e.stack, "error");
         }
-        return Statique;
+        return self;
     }
 
     if (typeof routeToServe.handler === "function") {
         try {
             routeToServe.handler(req, res, form._emitter);
         } catch (e) {
-            Statique.error(req, res, 500, "Internal Server Error");
+            self.error(req, res, 500, "Internal Server Error");
             Debug.log(e.stack, "error");
         }
-        return Statique;
+        return self;
     }
 
-    return Statique.serveFile(routeToServe, null, res, req);
+    return self.serveFile(routeToServe, null, res, req);
 };
 
 /**
@@ -386,8 +400,9 @@ Statique.serveRoute = function (route, req, res) {
  * @param {String} newUrl The new url where the user should be redirected
  * @return {Object} Statique object
  */
-Statique.redirect = function (res, newUrl) {
-    return Statique.sendRes(res, 301, "text", "Redirecting", {
+Statique.prototype.redirect = function (res, newUrl) {
+    var self = this;
+    return self.sendRes(res, 301, "text", "Redirecting", {
         "location": newUrl
     });
 };
@@ -403,16 +418,17 @@ Statique.redirect = function (res, newUrl) {
  * @param {String} errMessage The error message
  * @return {Object} Statique object
  */
-Statique.error = function (req, res, errCode, errMessage) {
-    var configErrors = Object(Statique._errors)
+Statique.prototype.error = function (req, res, errCode, errMessage) {
+    var self = this
+      , configErrors = Object(self._errors)
       , errPage = configErrors[errCode]
       ;
 
     if (errPage) {
-        return Statique.serveFile(errPage, errCode, res, req, {
+        return self.serveFile(errPage, errCode, res, req, {
             "cache-control": "no-cache"
         });
     }
 
-    return Statique.sendRes(res, errCode, "text", errMessage);
+    return self.sendRes(res, errCode, "text", errMessage);
 };
