@@ -227,7 +227,7 @@ Statique.prototype.sendRes = function (res, statusCode, mimeType, content, other
       ;
 
     for (var h in otherHeaders) {
-        headers[h] = otherHeaders[h] || headers[h];
+        headers[h] = otherHeaders[h] === undefined ? headers[h] : otherHeaders[h];
     }
 
     res.writeHead(statusCode, headers);
@@ -325,10 +325,12 @@ Statique.prototype.serveFile = function (path, statusCode, res, req, additionalH
     }
 
     // file should cached
-    self.sendRes(res, statusCode || 200, contentType, null, headers)
+    self.sendRes(res, statusCode || 200, contentType, stats.size ? null : "", headers)
 
-    var fileStream = Fs.createReadStream(fullPath);
-    fileStream.pipe(res);
+    if (stats.size) {
+        var fileStream = Fs.createReadStream(fullPath);
+        fileStream.pipe(res);
+    }
 
     return self;
 };
