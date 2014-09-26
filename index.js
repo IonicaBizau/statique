@@ -18,7 +18,10 @@ var Url = require("url")
  * http://github.com/IonicaBizau/node-statique
  */
 var Statique = module.exports = function (options) {
-    return this.server(options);
+    var self = this;
+    self._routes = {};
+    self._regexpRoutes = [];
+    return self.server(options);
 };
 
 /**
