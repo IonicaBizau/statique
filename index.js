@@ -21,6 +21,12 @@ var Statique = module.exports = function (options) {
     var self = this;
     self._routes = {};
     self._regexpRoutes = [];
+
+    for (var foo in self) {
+        if (typeof self[foo] !== "function") { continue; }
+        self[foo] = self[foo].bind(self);
+    }
+
     return self.server(options);
 };
 
