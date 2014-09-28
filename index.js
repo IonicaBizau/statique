@@ -48,7 +48,7 @@ Statique.prototype.server = function (options) {
     }
 
     self._root = options.root;
-    self._cache = options.cache || 3600;
+    self._cache = options.cache !== undefined ? options.cache : 3600;
 
     return self;
 };
