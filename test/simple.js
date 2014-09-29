@@ -11,7 +11,7 @@ var server = new Statique({
     "/": "/html/index.html"
 });
 
-// create server
+// Create server
 Http.createServer(server.serve).listen(8000);
 
 // Output
