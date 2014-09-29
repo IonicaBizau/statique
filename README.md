@@ -273,7 +273,7 @@ npm test
 
 # Changelog
 
-## `v0.4.0`
+## `0.4.0`
  - Support multiple instances
  - Upgraded to `regex-parser@1.0.0`
 
