@@ -37,7 +37,7 @@ Sets the root of the public folder.
   - cache: the number of seconds of cache
 
 ### Return:
-* **Object** Statique object
+* **Object** Statique instance
 
 ## `setRoutes(routes)`
 Sets the routes of the website.
@@ -60,7 +60,7 @@ following format:
 See test file for more examples.
 
 ### Return:
-* **Object** Statique object
+* **Object** Statique instance
 
 ## `setErrors(errorRoutes)`
 Sets the error pages
@@ -69,7 +69,7 @@ Sets the error pages
 * **Object** *errorRoutes* An object with the error codes and their paths to the HTML files
 
 ### Return:
-* **Object** Statique object
+* **Object** Statique instance
 
 ## `getRoute(url)`
 Gets the route by providing an @url
@@ -147,7 +147,7 @@ route object
 
 ### Return:
 
-* **Object** Statique object
+* **Object** Statique instance
 
 ## `serveRoute(route, req, res)`
 
@@ -174,7 +174,7 @@ Redirects the user to the new url passed in the second argument.
 
 ### Return:
 
-* **Object** Statique object
+* **Object** Statique instance
 
 ## `error(req, res, errCode, errMessage)`
 Sends an error to client
@@ -186,7 +186,7 @@ Sends an error to client
 * **String** *errMessage* The error message
 
 ### Return:
-* **Object** Statique object
+* **Object** Statique instance
 
 # Advanced Example
 
