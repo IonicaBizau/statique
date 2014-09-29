@@ -273,6 +273,10 @@ npm test
 
 # Changelog
 
+## `v0.4.0`
+ - Support multiple instances
+ - Upgraded to `regex-parser@1.0.0`
+
 ## `v0.3.7`
  - Regex routes
  - `customRoot` parameter to `serveFile` method
