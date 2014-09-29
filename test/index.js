@@ -1,5 +1,5 @@
 // Dependencies
-var Statique = require("../index")
+var Statique = require("../lib/index")
   , Http = require('http')
   ;
 
