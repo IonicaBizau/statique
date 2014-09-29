@@ -1,8 +1,31 @@
 ![](http://i.imgur.com/Az6vZ06.png)
 
-Another Node.JS static server module.
+A Node.JS static server module with built-in cache options and route features.
 
 ![](https://nodei.co/npm/statique.png)
+
+# Example
+
+```js
+// Dependencies
+var Statique = require("statique")
+  , Http = require('http')
+  ;
+
+// Create *Le Statique* server
+var server = new Statique({
+    root: __dirname + "/public"
+  , cache: 36000
+}).setRoutes({
+    "/": "/html/index.html"
+});
+
+// Create server
+Http.createServer(server.serve).listen(8000);
+
+// Output
+console.log("Listening on 8000.");
+```
 
 # Methods
 ## `server(options)`
@@ -165,7 +188,7 @@ Sends an error to client
 ### Return:
 * **Object** Statique object
 
-# Example
+# Advanced Example
 
 File structure:
 ```sh
@@ -220,60 +243,23 @@ For the file structure above, the following routes would serve files for each ur
 This is the content for `index.js` file.
 
 ```js
-// dependencies
+// Dependencies
 var Statique = require("../index")
-  , http = require('http')
+  , Http = require('http')
   ;
 
-// statique config
-Statique
-    .server({root: __dirname + "/public"})
-    .setRoutes({
-        "/":       "/html/index.html"
-      , "/test1/": {url: "/html/test1.html"}
-      , "/test2": "/html/test2.html"
-      , "/some/api": function (req, res) {
-            res.end("Hello World!");
-        }
-      , "/some/test1-alias": function (req, res) {
-            Statique.serveRoute("/test1", req, res);
-        }
-      , "/method-test": {
-            get: function (req, res) { res.end("GET"); }
-          , post: function (req, res, form) {
-                form.on("done", function (form) {
-                    console.log(form.data);
-                });
-                res.end();
-            }
-        }
-      , "/crash": {
-            get: function (req, res) { undefined.something; }
-        }
-      , "\/anynumber\-[0-9]": {
-            type: "regexp"
-          , handler: function (req, res) {
-                res.end("Hi");
-            }
-        }
-      , "r1": {
-            type: "regexp"
-          , regexp: /anyletter\-[a-z]/i
-          , handler: function (req, res) {
-                res.end("Case insensitive is important. ;)");
-            }
-        }
-    })
-    .setErrors({
-        404: "/html/errors/404.html"
-      , 500: "/html/errors/500.html"
-    });
-  ;
+// Create *Le Statique* server
+var server = new Statique({
+    root: __dirname + "/public"
+  , cache: 36000
+}).setRoutes({
+    "/": "/html/index.html"
+});
 
 // create server
-http.createServer(Statique.serve).listen(8000);
+Http.createServer(server.serve).listen(8000);
 
-// output
+// Output
 console.log("Listening on 8000.");
 ```
 
