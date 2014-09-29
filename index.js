@@ -4,7 +4,7 @@ var Url = require("url")
   , Path = require("path")
   , Events = require("events")
   , Debug = require("bug-killer")
-  , RegexpParser = require("regex-parser")
+  , RegexParser = require("regex-parser")
   , Mime = require("mime")
   ;
 
@@ -88,7 +88,7 @@ Statique.prototype.setRoutes = function (routes) {
         var cRoute = routes[r];
         if ((cRoute.type || "").toLowerCase() === "regexp") {
             if ((cRoute.regexp || {}).constructor.name !== "RegExp") {
-                cRoute.regexp = RegexpParser.parse(r);
+                cRoute.regexp = RegexParser(r);
             }
             self._regexpRoutes.push(cRoute);
             delete cRoute[r];
