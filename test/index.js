@@ -15,7 +15,7 @@ var server = new Statique({
         res.end("Hello World!");
     }
   , "/some/test1-alias": function (req, res) {
-        Statique.serveRoute("/test1", req, res);
+        server.serveRoute("/test1", req, res);
     }
   , "/method-test": {
         get: function (req, res) { res.end("GET"); }
