@@ -13,7 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node test/index"
+    "test": "vows --spec --isolate"
   },
   "repository": {
     "type": "git",
