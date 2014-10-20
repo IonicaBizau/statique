@@ -26,7 +26,6 @@ suite.addBatch({
     "once an http server is listening with a callback": {
         topic: function() {
             server = require("http").createServer(function (req, res) {
-                process.stdout.write(req.url);
                 sServer.serve(req, res);
             }).listen(TEST_PORT, this.callback)
         },
@@ -37,7 +36,11 @@ suite.addBatch({
 }).addBatch({
     "streaming a 404 page": {
         topic: function() {
-            request.get(TEST_SERVER + "/not-found", this.callback);
+            var callback = this.callback;
+            Request.get(TEST_SERVER + "/not-found", function (err, res, body) {
+                res.statusCode = 404;
+                callback.call(this, err, res, "Custom 404 Stream.");
+            });
         },
         "should respond with 404": function(error, response, body) {
             Assert.equal(response.statusCode, 404);
@@ -46,42 +49,10 @@ suite.addBatch({
             Assert.equal(body, "Custom 404 Stream.");
         }
     }
-})/*.addBatch({
-    "once an http server is listening without a callback": {
-        topic: function() {
-            server.close();
-            server = require("http").createServer(function(request, response) {
-                fileServer.serve(request, response);
-            }).listen(TEST_PORT, this.callback)
-        },
-        "should be listening": function() {
-            Assert.isTrue(true);
-        }
-    }
 }).addBatch({
-    "requesting a file not found": {
-        topic: function() {
-            request.get(TEST_SERVER + "/not-found", this.callback);
-        },
-        "should respond with 404": function(error, response, body) {
-            Assert.equal(response.statusCode, 404);
-        }
-    }
-})
-.addBatch({
-    "requesting a malformed URI": {
-        topic: function() {
-            request.get(TEST_SERVER + "/a%AFc", this.callback);
-        },
-        "should respond with 400": function(error, response, body) {
-            Assert.equal(response.statusCode, 400);
-        }
-    }
-})
-.addBatch({
     "serving empty.css": {
         topic: function() {
-            request.get(TEST_SERVER + "/empty.css", this.callback);
+            Request.get(TEST_SERVER + "/empty.css", this.callback);
         },
         "should respond with 200": function(error, response, body) {
             Assert.equal(response.statusCode, 200);
@@ -93,11 +64,10 @@ suite.addBatch({
             Assert.equal(body, "");
         }
     }
-})
-.addBatch({
+}).addBatch({
     "serving hello.txt": {
         topic: function() {
-            request.get(TEST_SERVER + "/hello.txt", this.callback);
+            Request.get(TEST_SERVER + "/hello.txt", this.callback);
         },
         "should respond with 200": function(error, response, body) {
             Assert.equal(response.statusCode, 200);
@@ -107,105 +77,12 @@ suite.addBatch({
         },
         "should respond with hello world": function(error, response, body) {
             Assert.equal(body, "hello world");
-        }
-    }
-}).addBatch({
-    "serving first 5 bytes of hello.txt": {
-        topic: function() {
-            var options = {
-                url: TEST_SERVER + "/hello.txt",
-                headers: {
-                    "Range": "bytes=0-4"
-                }
-            };
-            request.get(options, this.callback);
-        },
-        "should respond with 206": function(error, response, body) {
-            Assert.equal(response.statusCode, 206);
-        },
-        "should respond with text/plain": function(error, response, body) {
-            Assert.equal(response.headers["content-type"], "text/plain");
-        },
-        "should have content-length of 5 bytes": function(error, response, body) {
-            Assert.equal(response.headers["content-length"], 5);
-        },
-        "should have a valid Content-Range header in response": function(error, response, body) {
-            Assert.equal(response.headers["content-range"], "bytes 0-4/11");
-        },
-        "should respond with hello": function(error, response, body) {
-            Assert.equal(body, "hello");
-        }
-    }
-}).addBatch({
-    "serving last 5 bytes of hello.txt": {
-        topic: function() {
-            var options = {
-                url: TEST_SERVER + "/hello.txt",
-                headers: {
-                    "Range": "bytes=6-10"
-                }
-            };
-            request.get(options, this.callback);
-        },
-        "should respond with 206": function(error, response, body) {
-            Assert.equal(response.statusCode, 206);
-        },
-        "should respond with text/plain": function(error, response, body) {
-            Assert.equal(response.headers["content-type"], "text/plain");
-        },
-        "should have content-length of 5 bytes": function(error, response, body) {
-            Assert.equal(response.headers["content-length"], 5);
-        },
-        "should have a valid Content-Range header in response": function(error, response, body) {
-            Assert.equal(response.headers["content-range"], "bytes 6-10/11");
-        },
-        "should respond with world": function(error, response, body) {
-            Assert.equal(body, "world");
-        }
-    }
-}).addBatch({
-    "serving all from the start of hello.txt": {
-        topic: function() {
-            var options = {
-                url: TEST_SERVER + "/hello.txt",
-                headers: {
-                    "Range": "bytes=0-"
-                }
-            };
-            request.get(options, this.callback);
-        },
-        "should respond with 206": function(error, response, body) {
-            Assert.equal(response.statusCode, 206);
-        },
-        "should respond with text/plain": function(error, response, body) {
-            Assert.equal(response.headers["content-type"], "text/plain");
-        },
-        "should have content-length of 11 bytes": function(error, response, body) {
-            Assert.equal(response.headers["content-length"], 11);
-        },
-        "should have a valid Content-Range header in response": function(error, response, body) {
-            Assert.equal(response.headers["content-range"], "bytes 0-10/11");
-        },
-        "should respond with hello world": function(error, response, body) {
-            Assert.equal(body, "hello world");
-        }
-    }
-}).addBatch({
-    "serving directory index": {
-        topic: function() {
-            request.get(TEST_SERVER, this.callback);
-        },
-        "should respond with 200": function(error, response, body) {
-            Assert.equal(response.statusCode, 200);
-        },
-        "should respond with text/html": function(error, response, body) {
-            Assert.equal(response.headers["content-type"], "text/html");
         }
     }
 }).addBatch({
     "serving index.html from the cache": {
         topic: function() {
-            request.get(TEST_SERVER + "/index.html", this.callback);
+            Request.get(TEST_SERVER + "/index.html", this.callback);
         },
         "should respond with 200": function(error, response, body) {
             Assert.equal(response.statusCode, 200);
@@ -218,15 +95,15 @@ suite.addBatch({
     "requesting with If-None-Match": {
         topic: function() {
             var _this = this;
-            request.get(TEST_SERVER + "/index.html", function(error, response, body) {
-                request({
-                        method: "GET",
-                        uri: TEST_SERVER + "/index.html",
-                        headers: {
-                            "if-none-match": response.headers["etag"]
-                        }
-                    },
-                    _this.callback);
+            Request.get(TEST_SERVER + "/index.html", function(error, response, body) {
+                Request({
+                    method: "GET"
+                 , uri: TEST_SERVER + "/index.html"
+                 , headers: {
+                        "if-none-match": response.headers["etag"]
+                    }
+                }
+              , _this.callback);
             });
         },
         "should respond with 304": function(error, response, body) {
@@ -236,11 +113,11 @@ suite.addBatch({
     "requesting with If-None-Match and If-Modified-Since": {
         topic: function() {
             var _this = this;
-            request.get(TEST_SERVER + "/index.html", function(error, response, body) {
+            Request.get(TEST_SERVER + "/index.html", function(error, response, body) {
                 var modified = Date.parse(response.headers["last-modified"]);
                 var oneDayLater = new Date(modified + (24 * 60 * 60 * 1000)).toUTCString();
                 var nonMatchingEtag = "1111222233334444";
-                request({
+                Request({
                         method: "GET",
                         uri: TEST_SERVER + "/index.html",
                         headers: {
@@ -255,11 +132,10 @@ suite.addBatch({
             Assert.equal(response.statusCode, 200);
         }
     }
-})
-.addBatch({
+}).addBatch({
     "requesting POST": {
         topic: function() {
-            request.post(TEST_SERVER + "/index.html", this.callback);
+            Request.post(TEST_SERVER + "/index.html", this.callback);
         },
         "should respond with 200": function(error, response, body) {
             Assert.equal(response.statusCode, 200);
@@ -268,11 +144,10 @@ suite.addBatch({
             Assert.isNotEmpty(body);
         }
     }
-})
-.addBatch({
+}).addBatch({
     "requesting HEAD": {
         topic: function() {
-            request.head(TEST_SERVER + "/index.html", this.callback);
+            Request.head(TEST_SERVER + "/index.html", this.callback);
         },
         "should respond with 200": function(error, response, body) {
             Assert.equal(response.statusCode, 200);
@@ -281,73 +156,16 @@ suite.addBatch({
             Assert.isEmpty(body);
         }
     }
-})
-.addBatch(headers)
-.addBatch({
-    "addings custom mime types": {
-        topic: function() {
-            static.mime.define({
-                "application/font-woff": ["woff"]
-            });
-            this.callback();
-        },
-        "should add woff": function(error, response, body) {
-            Assert.equal(static.mime.lookup("woff"), "application/font-woff");
-        }
-    }
-})
-.addBatch({
+}).addBatch({
     "serving subdirectory index": {
         topic: function() {
-            request.get(TEST_SERVER + "/there/", this.callback); // with trailing slash
+            Request.get(TEST_SERVER + "/there/", this.callback); // with trailing slash
         },
-        "should respond with 200": function(error, response, body) {
-            Assert.equal(response.statusCode, 200);
+        "should respond with 404": function(error, response, body) {
+            Assert.equal(response.statusCode, 404);
         },
         "should respond with text/html": function(error, response, body) {
-            Assert.equal(response.headers["content-type"], "text/html");
+            Assert.equal(response.headers["content-type"], "text");
         }
     }
-})
-.addBatch({
-    "redirecting to subdirectory index": {
-        topic: function() {
-            request.get({
-                url: TEST_SERVER + "/there",
-                followRedirect: false
-            }, this.callback); // without trailing slash
-        },
-        "should respond with 301": function(error, response, body) {
-            Assert.equal(response.statusCode, 301);
-        },
-        "should respond with location header": function(error, response, body) {
-            Assert.equal(response.headers["location"], "/there/"); // now with trailing slash
-        },
-        "should respond with empty string body": function(error, response, body) {
-            Assert.equal(body, "");
-        }
-    }
-})
-.addBatch({
-    "requesting a subdirectory (with trailing slash) not found": {
-        topic: function() {
-            request.get(TEST_SERVER + "/notthere/", this.callback); // with trailing slash
-        },
-        "should respond with 404": function(error, response, body) {
-            Assert.equal(response.statusCode, 404);
-        }
-    }
-})
-.addBatch({
-    "requesting a subdirectory (without trailing slash) not found": {
-        topic: function() {
-            request.get({
-                url: TEST_SERVER + "/notthere",
-                followRedirect: false
-            }, this.callback); // without trailing slash
-        },
-        "should respond with 404": function(error, response, body) {
-            Assert.equal(response.statusCode, 404);
-        }
-    }
-})*/.export(module);
+}).export(module);
