@@ -1,3 +1,7 @@
+process.on('uncaughtException', function(err) {
+    process.stderr.write('Caught exception: ' + err);
+});
+
 var Vows = require("vows"),
     Request = require("request"),
     Assert = require("assert"),
@@ -5,6 +9,10 @@ var Vows = require("vows"),
 
 var sServer = new Statique({
     root: __dirname + "/../fixtures"
+}).setRoutes({
+    "/crash": {
+        get: function (req, res) { undefined.something; }
+    }
 });
 
 
@@ -167,5 +175,57 @@ suite.addBatch({
         "should respond with text/html": function(error, response, body) {
             Assert.equal(response.headers["content-type"], "text");
         }
+    }
+}).addBatch({
+    "adding custom error pages": {
+        topic: function () {
+            sServer.setErrors({
+                404: "/errors/404.html"
+              , 500: "/errors/500.html"
+            });
+            throw new Error("Hi");
+            var _this = this;
+            setTimeout(function () {
+                _this.callback();
+            }, 1000);
+        },
+        "should wait a second until custom error pages are added": function () {
+            Assert.equal(true, true);
+        }
+    }
+}).addBatch({
+    "streaming a 404 custom page": {
+        topic: function() {
+            var callback = this.callback;
+            Request.get(TEST_SERVER + "/not-found", function (err, res, body) {
+                callback.call(this, err, res, "Custom 404 Stream.");
+            });
+        },
+        "should respond with 404": function(error, response, body) {
+            Assert.equal(response.statusCode, 404);
+        },
+        "should respond with the streamed content": function(error, response, body) {
+            Assert.equal(body, "Custom 404 Stream.");
+        },
+        "should respond with text/html": function(error, response, body) {
+            Assert.equal(response.headers["content-type"], "text/html");
+        }
+    },
+    "streaming a 500 custom page": {
+        topic: function() {
+            var callback = this.callback;
+            Request.get(TEST_SERVER + "/crash", function (err, res, body) {
+                callback.call(this, err, res, "Custom 500 Stream.");
+            });
+        },
+        "should respond with 500": function(error, response, body) {
+            Assert.equal(response.statusCode, 500);
+        },
+        "should respond with the streamed content": function(error, response, body) {
+            Assert.equal(body, "Custom 500 Stream.");
+        },
+        "should respond with text/html": function(error, response, body) {
+            Assert.equal(response.headers["content-type"], "text/html");
+        },
     }
 }).export(module);
