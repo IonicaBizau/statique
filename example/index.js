@@ -14,8 +14,11 @@ var server = new Statique({
   , "/some/api": function (req, res) {
         res.end("Hello World!");
     }
+  , "/buffer": function (req, res) {
+        server.sendRes(res, 200, "text/plain", new Buffer("I am a buffer."));
+    }
   , "/some/test1-alias": function (req, res) {
-        Statique.serveRoute("/test1", req, res);
+        server.serveRoute("/test1", req, res);
     }
   , "/method-test": {
         get: function (req, res) { res.end("GET"); }
