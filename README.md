@@ -2,7 +2,7 @@
 
 A Node.JS static server module with built-in cache options and route features.
 
-![](https://nodei.co/npm/statique.png)
+[![](https://nodei.co/npm/statique.png)](https://www.npmjs.org/package/statique)
 
 # Example
 
@@ -28,169 +28,163 @@ console.log("Listening on 8000.");
 ```
 
 # Methods
+
 ## `server(options)`
-Sets the root of the public folder.
+Creates the server instance. This method is called internally.
 
-### Params:
-* **Object** *options* an object containing the following fields:
-  - root: string representing the absolute path to the public folder.
-  - cache: the number of seconds of cache
+### Params
+- **Object** `options`: An object containing the following fields:
+ - `root`: A string representing the absolute path to the public folder
+ - `cache`: How long the client is supposed to cache the files Statique serves (in seconds)
 
-### Return:
-* **Object** Statique instance
+### Return
+- **Object** Statique instance
 
 ## `setRoutes(routes)`
 Sets the routes of the website.
 
-### Params:
-* **Object** *routes* an object containing fields and values in the
-following format:
+### Params
+- **Object** `routes`: An object containing fields and values in the following format:
 
 ```js
-  {
-      "/":       "/html/index.html"
-    , "/foo/":   { url: "/html/foo.html" }
-    , "/another-foo": "/html/myfoo.html"
-    , "/some/api": function (req, res) {
-          res.end("Hello World!");
-      }
-  }
+{
+    "/":       "/html/index.html"
+  , "/foo/":   { url: "/html/foo.html" }
+  , "/another-foo": "/html/myfoo.html"
+  , "/some/api": function (req, res) {
+        res.end("Hello World!");
+    }
+}
 ```
 
 See test file for more examples.
 
-### Return:
-* **Object** Statique instance
+### Return
+- **Object** Statique instance
 
 ## `setErrors(errorRoutes)`
-Sets the error pages
+Sets the error custom pages.
 
-### Params:
-* **Object** *errorRoutes* An object with the error codes and their paths to the HTML files
+### Params
+- **Object** `errorRoutes`: An object with the error codes and their paths to the HTML files:
+```js
+{
+    500: "/html/errors/500.html"
+  , 404: "/html/errors/not-found.html"
+}
+```
 
-### Return:
-* **Object** Statique instance
+### Return
+- **Object** Statique instance
 
 ## `getRoute(url)`
-Gets the route by providing an @url
+Gets the route by providing the `url` parameter.
 
-### Params:
-* **String** *url* a string representing the url of the page that
-must be served
+### Params
+- **String** `url`: A string representing the url of the page that must be served
 
-### Return:
-* **Object** the route object that contains the following fields:
-  - url
-  - handler
-  - _data (original route from config)
+### Return
+- **Object** The route object that contains the following fields:
+ - `url`: The url found in route object
+ - `reqUrl`: The url found in route object or the passed `url` parameter
+ - `handler`: The handler that is called on that url
+ - `_data`: The original route from configuration
 
 ## `exists(req)`
 Checks if a route exists.
 
-### Params:
-* **Object** *req* the request object
+### Params
+- **Object** `req`: The request object
 
-### Return:
-* **Boolean** true, if the route was found, else false
+### Return
+- **Boolean** A boolean value that is `true` when the route was found. Otherwise it's `false`.
 
 ## `readFile(file, callback)`
 Reads the file and callbacks the content.
 
-### Params:
-* **String** *file* the relative path to the file
-* **Function** *callback* the callback function that will be called with an
-err (first argument) and the content of the file (second argument)
+### Params
+- **String** `file`: The relative path to the file
+- **Function** `callback`: The callback function
 
-### Return:
-* **Buffer** the raw buffer
+### Return
+- **Stream** The read stream that was created
 
 ## `serve(req, res)`
-Serves the HTML file by providing the @req and @res parameters
+Serves the file by providing the request and response parameters.
 
-### Params:
-* **Object** *req* the request object
-* **Object** *res* the response object
+### Params
+- **Object** `req`: The request object
+- **Object** `res`: The response object
 
-### Return:
-* **Object** the Statique instance
+### Return
+- **Object** Statique instance
 
 ## `sendRes(res, statusCode, mimeType, content, otherHeaders)`
 This function is used for sending custom status messages and content
-If the @content parameter is not provided or is not a string, the response
-will not be ended. The status code and the headers will be set
+If the `content` parameter is not provided or is not a string, the response
+will not be ended. However, the status code and the headers will be set.
 
-### Params:
-* **Object** *res* the response object
-* **Number** *statusCode* the response status code
-* **String** *mimeType* the response mime type
-* **String** *content* the content that you want to send via response
-* **Object** *otherHeaders* Aditional headers that will be merged with
-the basic ones. They have greater priority than basic headers.
+### Params
+- **Object** `res`: The response object
+- **Number** `statusCode`: The response status code
+- **String** `mimeType`: The response mime type
+- **String** `content`: The content that you want to send via response
+- **Object** `otherHeaders`: Aditional headers that will be merged with the basic ones. They have greater priority than basic headers.
 
-### Return:
-
-* **Object** the Statique instance
+### Return
+- **Object** Statique instance
 
 ## `serveFile(path, statusCode, res, req, additionalHeaders, customRoot)`
-
 Serves a file
 
-### Params:
+### Params
+- **String|Object** `path`: The path to the file that should be served or the route object.
+- **Number** `statusCode`: The response status code (default: 200)
+- **Object** `res`: The response object
+- **Object** `req`: The request object
+- **Object** `additionalHeaders`: Additional headers that should be sent
+- **String** `customRoot`: Path to the custom root (e.g. "/")
 
-* **String|Object** *path* The path to the file that should be served or the
-route object
-* **Number** *statusCode* The response status code (default: 200)
-* **Object** *res* The response object
-* **Object** *req* The request object
-* **Object** *additionalHeaders* Additional headers that should be sent
-* **String** *customRoot* Path to the custom root (e.g. "/")
-
-### Return:
-
-* **Object** Statique instance
+### Return
+- **Object** Statique instance
 
 ## `serveRoute(route, req, res)`
-
 Serves a provided route.
 
-### Params:
+### Params
+- **String** `route`: The route that should be served
+- **Object** `req`: The request object
+- **Object** `res`: The response object
 
-* **String** *route* The route that should be served
-* **Object** *req* The request object
-* **Object** *res* The response object
-
-### Return:
-
-* **Object** The Statique instance
+### Return
+- **Object** Statique instance
 
 ## `redirect(res, newUrl)`
-
 Redirects the user to the new url passed in the second argument.
 
-### Params:
+### Params
+- **String** `res`: The response object
+- **String** `newUrl`: The new url where the user should be redirected
 
-* **String** *res* The response object
-* **String** *newUrl* The new url where the user should be redirected
-
-### Return:
-
-* **Object** Statique instance
+### Return
+- **Object** Statique instance
 
 ## `error(req, res, errCode, errMessage)`
 Sends an error to client
 
-### Params:
-* **Object** *req* The request object
-* **Object** *res* The response object
-* **Number** *errCode* The error code
-* **String** *errMessage* The error message
+### Params
+- **Object** `req`: The request object
+- **Object** `res`: The response object
+- **Number** `errCode`: The error code
+- **String** `errMessage`: The error message
 
-### Return:
-* **Object** Statique instance
+### Return
+- **Object** Statique instance
 
 # Advanced Example
 
 File structure:
+
 ```sh
 $ tree
 .
@@ -244,7 +238,7 @@ This is the content for `index.js` file.
 
 ```js
 // Dependencies
-var Statique = require("../index")
+var Statique = require("../lib/index")
   , Http = require('http')
   ;
 
@@ -254,6 +248,45 @@ var server = new Statique({
   , cache: 36000
 }).setRoutes({
     "/": "/html/index.html"
+  , "/test1/": {url: "/html/test1.html"}
+  , "/test2": "/html/test2.html"
+  , "/some/api": function (req, res) {
+        res.end("Hello World!");
+    }
+  , "/buffer": function (req, res) {
+        server.sendRes(res, 200, "text/plain", new Buffer("I am a buffer."));
+    }
+  , "/some/test1-alias": function (req, res) {
+        server.serveRoute("/test1", req, res);
+    }
+  , "/method-test": {
+        get: function (req, res) { res.end("GET"); }
+      , post: function (req, res, form) {
+            form.on("done", function (form) {
+                console.log(form.data);
+            });
+            res.end();
+        }
+    }
+  , "/crash": {
+        get: function (req, res) { undefined.something; }
+    }
+  , "\/anynumber\-[0-9]": {
+        type: "regexp"
+      , handler: function (req, res) {
+            res.end("Hi");
+        }
+    }
+  , "r1": {
+        type: "regexp"
+      , regexp: /anyletter\-[a-z]/i
+      , handler: function (req, res) {
+            res.end("Case insensitive is important. ;)");
+        }
+    }
+}).setErrors({
+    404: "/html/errors/404.html"
+  , 500: "/html/errors/500.html"
 });
 
 // create server
@@ -272,6 +305,17 @@ npm test
 ```
 
 # Changelog
+
+## `1.0.0`
+ - Improved `readFile` method (using file streams)
+ - Buffer support for `sendRes` method
+ - Better crash handling
+ - Added tests
+ - Send 404 error when requests on directories come
+ - Updated docs
+ - Simplified mime type setting
+ - Fixed `stats` magic variable (bug)
+ - Emit error events (the instance of Statique is an instance of `EventEmitter`). Now we can listening on errors using `server.on("error", foo)`.
 
 ## `0.4.0`
  - Support multiple instances
@@ -352,4 +396,4 @@ npm test
  - all contributors that will contribute to this project
 
 # Licence
-See LICENSE file.
+See the [LICENSE](/LICENSE) file.
