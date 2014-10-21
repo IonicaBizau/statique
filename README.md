@@ -1,4 +1,4 @@
-![](http://i.imgur.com/Az6vZ06.png)
+![Le Statique](http://i.imgur.com/dGw3go8.png)
 
 A Node.JS static server module with built-in cache options and route features.
 
