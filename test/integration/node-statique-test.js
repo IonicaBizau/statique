@@ -13,6 +13,7 @@ var sServer = new Statique({
     "/crash": {
         get: function (req, res) { undefined.something; }
     }
+  , "/": "index.html"
 });
 
 
@@ -227,5 +228,15 @@ suite.addBatch({
         "should respond with text/html": function(error, response, body) {
             Assert.equal(response.headers["content-type"], "text/html");
         },
+    }
+}).addBatch({
+    "reading file (Statique.readFile)": {
+        topic: function() {
+            var callback = this.callback;
+            sServer.readFile("hello.txt", this.callback);
+        },
+        "content should be 'hello world'": function(err, content) {
+            Assert.equal(content, "hello world");
+        }
     }
 }).export(module);
