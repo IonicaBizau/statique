@@ -298,10 +298,59 @@ console.log("Listening on 8000.");
 
 # Test
 
-```
-npm install statique
-cd node_modules/statique
-npm test
+```sh
+$ npm install statique
+$ cd node_modules/statique
+$ npm test
+
+> statique@0.4.0 test /home/.../node-statique
+> vows --spec --isolate
+
+  ♢ statique
+
+  once an http server is listening with a callback
+    ✓ should be listening
+  streaming a 404 page
+    ✓ should respond with 404
+    ✓ should respond with the streamed content
+  serving empty.css
+    ✓ should respond with 200
+    ✓ should respond with text/css
+    ✓ should respond with empty string
+  serving hello.txt
+    ✓ should respond with 200
+    ✓ should respond with text/plain
+    ✓ should respond with hello world
+  serving index.html from the cache
+    ✓ should respond with 200
+    ✓ should respond with text/html
+  requesting with If-None-Match
+    ✓ should respond with 304
+  requesting with If-None-Match and If-Modified-Since
+    ✓ should respond with a 200
+  requesting POST
+    ✓ should respond with 200
+    ✓ should not be empty
+  requesting HEAD
+    ✓ should respond with 200
+    ✓ head must has no body
+  serving subdirectory index
+    ✓ should respond with 404
+    ✓ should respond with text/html
+  adding custom error pages
+    ✓ should wait a second until custom error pages are added
+  streaming a 404 custom page
+    ✓ should respond with 404
+    ✓ should respond with the streamed content
+    ✓ should respond with text/html
+  streaming a 500 custom page
+    ✓ should respond with 500
+    ✓ should respond with the streamed content
+    ✓ should respond with text/html
+  reading file (Statique.readFile)
+    ✓ content should be 'hello world'
+
+✓ OK » 27 honored (0.049s)
 ```
 
 # Changelog
