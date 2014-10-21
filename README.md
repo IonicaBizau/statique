@@ -315,7 +315,7 @@ npm test
  - Updated docs
  - Simplified mime type setting
  - Fixed `stats` magic variable (bug)
- - Emit error events (the instance of Statique is an instance of `EventEmitter`). Now we can listening on errors using `server.on("error", foo)`.
+ - Emit error events (the instance of Statique is an instance of `EventEmitter`). Now we can listening on errors using `server.on("serverError", foo)`.
 
 ## `0.4.0`
  - Support multiple instances
