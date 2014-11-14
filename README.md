@@ -355,6 +355,11 @@ $ npm test
 
 # Changelog
 
+## `1.0.1`
+ - Fixed `readFile` function error handling.
+ - Minor improvements in `getRoute` method.
+ - Improved url normalizing
+
 ## `1.0.0`
  - Improved `readFile` method (using file streams)
  - Buffer support for `sendRes` method
