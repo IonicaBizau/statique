@@ -8,7 +8,7 @@
     "test": "test"
   },
   "dependencies": {
-    "bug-killer": "^0.1.1",
+    "bug-killer": "^1.0.0",
     "regex-parser": "^1.0.0",
     "mime": "1.2.11"
   },
