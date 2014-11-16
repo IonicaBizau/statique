@@ -355,6 +355,9 @@ $ npm test
 
 # Changelog
 
+## `1.0.2`
+ - Updated `bug-killer` dependency to latest version.
+
 ## `1.0.1`
  - Fixed `readFile` function error handling.
  - Minor improvements in `getRoute` method.
