@@ -190,9 +190,9 @@ suite.addBatch({
                 _this.callback();
             }, 1000);
         },
-        "should wait a second until custom error pages are added": function () {
-            Assert.equal(true, true);
-        }
+        //"should wait a second until custom error pages are added": function () {
+        //    Assert.equal(true, true);
+        //}
     }
 }).addBatch({
     "streaming a 404 custom page": {
