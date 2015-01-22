@@ -10,7 +10,8 @@
   "dependencies": {
     "bug-killer": "^1.0.0",
     "regex-parser": "^1.0.0",
-    "mime": "1.2.11"
+    "mime": "1.2.11",
+    "ul": "1.1.0"
   },
   "devDependencies": {
     "vows": "*",
