@@ -1,16 +1,11 @@
 {
   "name": "statique",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "A Node.JS static server module with built-in cache options and route features.",
   "main": "lib/index.js",
   "directories": {
     "example": "example",
     "test": "test"
-  },
-  "dependencies": {
-    "bug-killer": "^1.0.0",
-    "regex-parser": "^1.0.0",
-    "mime": "1.2.11"
   },
   "devDependencies": {
     "vows": "*",
@@ -34,5 +29,12 @@
   "bugs": {
     "url": "https://github.com/IonicaBizau/node-statique/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/node-statique"
+  "homepage": "https://github.com/IonicaBizau/node-statique",
+  "dependencies": {
+    "bug-killer": "^1.0.0",
+    "mime": "^1.2.11",
+    "inherits": "^2.0.1",
+    "regex-parser": "^1.0.0",
+    "ul": "^2.1.0"
+  }
 }
