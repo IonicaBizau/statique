@@ -9,7 +9,7 @@ var server = new Statique({
   , cache: 36000
 }).setRoutes({
     "/": "/html/index.html"
-  , "/test1/": { url: "/html/test1.html" }
+  , "/test1/": { get: "/html/test1.html" }
   , "/test2": "/html/test2.html"
   , "/some/api": function (req, res) {
         res.end("Hello World!");
