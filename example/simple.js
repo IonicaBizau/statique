@@ -12,7 +12,7 @@ var server = new Statique({
 });
 
 // Create server
-Http.createServer(server.serve).listen(8000);
-
-// Output
-console.log("Listening on 8000.");
+Http.createServer(server.serve).listen(8000, function (err) {
+    if (err) { throw err; }
+    console.log("Listening on 8000.");
+});
