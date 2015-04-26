@@ -9,7 +9,7 @@ var server = new Statique({
   , cache: 36000
 }).setRoutes({
     "/": "/html/index.html"
-  , "/test1/": {url: "/html/test1.html"}
+  , "/test1/": { url: "/html/test1.html" }
   , "/test2": "/html/test2.html"
   , "/some/api": function (req, res) {
         res.end("Hello World!");
@@ -33,14 +33,13 @@ var server = new Statique({
         get: function (req, res) { undefined.something; }
     }
   , "\/anynumber\-[0-9]": {
-        type: "regexp"
+        re: true
       , handler: function (req, res) {
             res.end("Hi");
         }
     }
   , "r1": {
-        type: "regexp"
-      , regexp: /anyletter\-[a-z]/i
+        re: /anyletter\-[a-z]/i
       , handler: function (req, res) {
             res.end("Case insensitive is important. ;)");
         }
@@ -51,7 +50,7 @@ var server = new Statique({
 });
 
 // create server
-Http.createServer(server.serve).listen(8000);
-
-// Output
-console.log("Listening on 8000.");
+Http.createServer(server.serve.bind(server)).listen(8000, function (err) {
+    // Output
+    console.log("Listening on 8000.");
+});
