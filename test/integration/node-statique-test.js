@@ -1,14 +1,16 @@
-process.on('uncaughtException', function(err) {
-    process.stderr.write('Caught exception: ' + err);
-});
+// Dependencies
+var Vows = require("vows")
+  , Request = require("request")
+  , Http = require("http")
+  , Assert = require("assert")
+  , Path = require("path")
+  , Statique = require("../../lib/")
+  , Fs = require("fs")
+  ;
 
-var Vows = require("vows"),
-    Request = require("request"),
-    Assert = require("assert"),
-    Statique = require("../../lib/");
-
+// Create the Statique server
 var sServer = new Statique({
-    root: __dirname + "/../fixtures"
+    root: Path.resolve(__dirname, "../fixtures")
 }).setRoutes({
     "/crash": {
         get: function (req, res) { undefined.something; }
@@ -16,46 +18,52 @@ var sServer = new Statique({
   , "/": "index.html"
 });
 
+// Constants
+const TEST_PORT = 8080
+    , TEST_SERVER = "http://localhost:" + TEST_PORT
+    , CUSTOM_404_CONTENT = Fs.readFileSync(sServer.root + "/errors/404.html", "utf-8")
+    , CUSTOM_500_CONTENT = Fs.readFileSync(sServer.root + "/errors/500.html", "utf-8")
+    ;
 
-var suite = Vows.describe("statique");
-var TEST_PORT = 8080;
-var TEST_SERVER = "http://localhost:" + TEST_PORT;
-var server;
-var callback;
-
-var headers = {
-    "requesting headers": {
-        topic: function() {
-            request.head(TEST_SERVER + "/index.html", this.callback);
+// Prepare the tests
+var suite = Vows.describe("statique")
+  , server
+  , callback
+  , headers = {
+        "requesting headers": {
+            topic: function() {
+                request.head(TEST_SERVER + "/index.html", this.callback);
+            }
         }
     }
-};
+  ;
 
+// Run the tests
 suite.addBatch({
     "once an http server is listening with a callback": {
         topic: function() {
-            server = require("http").createServer(function (req, res) {
-                sServer.serve(req, res);
-            }).listen(TEST_PORT, this.callback)
+            server = Http
+                .createServer(sServer.serve.bind(sServer))
+                .listen(TEST_PORT, this.callback)
+                ;
         },
-        "should be listening": function() {
-            Assert.isTrue(true);
+        "should be listening": function(err) {
+            Assert.isUndefined(err);
         }
     }
 }).addBatch({
     "streaming a 404 page": {
         topic: function() {
-            var callback = this.callback;
-            Request.get(TEST_SERVER + "/not-found", function (err, res, body) {
-                res.statusCode = 404;
-                callback.call(this, err, res, "Custom 404 Stream.");
+            callback = this.callback;
+            Request.get(TEST_SERVER + "/not-found", function (err, res) {
+                callback.call(this, err, res);
             });
         },
-        "should respond with 404": function(error, response, body) {
+        "should respond with 404": function(error, response) {
             Assert.equal(response.statusCode, 404);
         },
-        "should respond with the streamed content": function(error, response, body) {
-            Assert.equal(body, "Custom 404 Stream.");
+        "should respond with the streamed content": function(error, response) {
+            Assert.equal(response.body, "Not found");
         }
     }
 }).addBatch({
@@ -184,29 +192,24 @@ suite.addBatch({
                 404: "/errors/404.html"
               , 500: "/errors/500.html"
             });
-            throw new Error("Hi");
-            var _this = this;
-            setTimeout(function () {
-                _this.callback();
-            }, 1000);
+
+            this.callback();
         },
-        //"should wait a second until custom error pages are added": function () {
-        //    Assert.equal(true, true);
-        //}
+        "should add the error pages": function () {}
     }
 }).addBatch({
     "streaming a 404 custom page": {
         topic: function() {
             var callback = this.callback;
             Request.get(TEST_SERVER + "/not-found", function (err, res, body) {
-                callback.call(this, err, res, "Custom 404 Stream.");
+                callback.call(this, err, res, body);
             });
         },
         "should respond with 404": function(error, response, body) {
             Assert.equal(response.statusCode, 404);
         },
         "should respond with the streamed content": function(error, response, body) {
-            Assert.equal(body, "Custom 404 Stream.");
+            Assert.equal(body, CUSTOM_404_CONTENT);
         },
         "should respond with text/html": function(error, response, body) {
             Assert.equal(response.headers["content-type"], "text/html");
@@ -216,14 +219,14 @@ suite.addBatch({
         topic: function() {
             var callback = this.callback;
             Request.get(TEST_SERVER + "/crash", function (err, res, body) {
-                callback.call(this, err, res, "Custom 500 Stream.");
+                callback.call(this, err, res, body);
             });
         },
         "should respond with 500": function(error, response, body) {
             Assert.equal(response.statusCode, 500);
         },
         "should respond with the streamed content": function(error, response, body) {
-            Assert.equal(body, "Custom 500 Stream.");
+            Assert.equal(body, CUSTOM_500_CONTENT);
         },
         "should respond with text/html": function(error, response, body) {
             Assert.equal(response.headers["content-type"], "text/html");
@@ -237,6 +240,15 @@ suite.addBatch({
         },
         "content should be 'hello world'": function(err, content) {
             Assert.equal(content, "hello world");
+        }
+    }
+}).addBatch({
+    "closing the http server": {
+        topic: function() {
+            server.close(this.callback);
+        },
+        "should close successfully": function(err) {
+            Assert.isUndefined(err);
         }
     }
 }).export(module);
