@@ -28,6 +28,22 @@ console.log("Listening on 8000.");
 ```
 
 # Documentation
+### `Route(route, url)`
+Creates a new route object.
+
+#### Params
+- **Function|String|Object** `route`: The route handler. Depending on the data type, it will be used for different scopes:  - `Function`: All the requests will be handled by this function (called with the `request`, `response` and `form` objects).
+ - `String`: The path to the file to be served.
+ - `Object`: An object containing the `re` field (which will be parsed as regular expression) or the methods object.
+- **String|RegExp** `url`: The route url (can be provided as string or `RegExp`).
+
+#### Return
+- **Route** The `Route` instance:  - `handler` (Function|null): The route handler.
+ - `file` (String): The path to the file to serve.
+ - `methods` (Object): An object containing handlers depending on the request method.
+ - `url` (String): The route url.
+ - `re` (RegExp|null): The route regular expression.
+
 ### `Statique(options)`
 Creates a new `Statique` server instance.
 
@@ -43,8 +59,8 @@ Creates a new `Statique` server instance.
 Adds a new route in the Statique instance.
 
 #### Params
-- **Object** `route`: An object containing the following fields:
-- **String** `url`: The route url.
+- **Function|String|Object** `route`: The route handler. Depending on the data type, it will be used for different scopes:
+- **String|RegExp** `url`: The route url (can be provided as string or `RegExp`).
 
 #### Return
 - **Route** The `Route` instance which was added.
@@ -57,8 +73,8 @@ Sets the routes of the website.
 
 ```js
 {
-    "/":       "/html/index.html"
-  , "/foo/":   { url: "/html/foo.html" }
+    "/": "/html/index.html"
+  , "/foo/": { url: "/html/foo.html" }
   , "/another-foo": "/html/myfoo.html"
   , "/some/api": function (req, res) {
         res.end("Hello World!");
@@ -66,7 +82,7 @@ Sets the routes of the website.
 }
 ```
 
-See test file for more examples.
+See `examples` directory for more examples.
 
 #### Return
 - **Object** Statique instance
