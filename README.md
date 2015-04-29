@@ -21,7 +21,7 @@ var server = new Statique({
 });
 
 // Create server
-Http.createServer(server.serve).listen(8000);
+Http.createServer(server.serve.bind(server)).listen(8000);
 
 // Output
 console.log("Listening on 8000.");
