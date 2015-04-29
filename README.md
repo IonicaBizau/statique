@@ -4,7 +4,7 @@ A Node.JS static server module with built-in cache options and route features.
 
 [![](https://nodei.co/npm/statique.png)](https://www.npmjs.org/package/statique)
 
-# Example
+## Example
 
 ```js
 // Dependencies
@@ -27,7 +27,7 @@ Http.createServer(server.serve.bind(server)).listen(8000);
 console.log("Listening on 8000.");
 ```
 
-# Documentation
+## Documentation
 ### `Route(route, url)`
 Creates a new route object.
 
@@ -59,7 +59,9 @@ Creates a new `Statique` server instance.
 Adds a new route in the Statique instance.
 
 #### Params
-- **Function|String|Object** `route`: The route handler. Depending on the data type, it will be used for different scopes:
+- **Function|String|Object** `route`: The route handler. Depending on the data type, it will be used for different scopes:  - `Function`: All the requests will be handled by this function (called with the `request`, `response` and `form` objects).
+ - `String`: The path to the file to be served.
+ - `Object`: An object containing the `re` field (which will be parsed as regular expression) or the methods object.
 - **String|RegExp** `url`: The route url (can be provided as string or `RegExp`).
 
 #### Return
@@ -82,7 +84,7 @@ Sets the routes of the website.
 }
 ```
 
-See `examples` directory for more examples.
+See test file for more examples.
 
 #### Return
 - **Object** Statique instance
@@ -226,7 +228,8 @@ Sends an error to client
 #### Return
 - **Object** Statique instance
 
-# Advanced Example
+
+## Advanced Example
 
 File structure:
 
@@ -356,70 +359,15 @@ Http.createServer(server.serve.bind(server)).listen(8000, function (err) {
 });
 ```
 
-# Test
+# How to contribute
+1. File an issue in the repository, using the bug tracker, describing the
+   contribution you'd like to make. This will help us to get you started on the
+   right foot.
+2. Fork the project in your account and create a new branch:
+   `your-great-feature`.
+3. Commit your changes in that branch.
+4. Open a pull request, and reference the initial issue in the pull request
+   message.
 
-```sh
-$ npm install statique
-$ cd node_modules/statique
-$ npm test
-
-> statique@0.4.0 test /home/.../node-statique
-> vows --spec --isolate
-
-  ♢ statique
-
-  once an http server is listening with a callback
-    ✓ should be listening
-  streaming a 404 page
-    ✓ should respond with 404
-    ✓ should respond with the streamed content
-  serving empty.css
-    ✓ should respond with 200
-    ✓ should respond with text/css
-    ✓ should respond with empty string
-  serving hello.txt
-    ✓ should respond with 200
-    ✓ should respond with text/plain
-    ✓ should respond with hello world
-  serving index.html from the cache
-    ✓ should respond with 200
-    ✓ should respond with text/html
-  requesting with If-None-Match
-    ✓ should respond with 304
-  requesting with If-None-Match and If-Modified-Since
-    ✓ should respond with a 200
-  requesting POST
-    ✓ should respond with 200
-    ✓ should not be empty
-  requesting HEAD
-    ✓ should respond with 200
-    ✓ head must has no body
-  serving subdirectory index
-    ✓ should respond with 404
-    ✓ should respond with text/html
-  adding custom error pages
-    ✓ should wait a second until custom error pages are added
-  streaming a 404 custom page
-    ✓ should respond with 404
-    ✓ should respond with the streamed content
-    ✓ should respond with text/html
-  streaming a 500 custom page
-    ✓ should respond with 500
-    ✓ should respond with the streamed content
-    ✓ should respond with text/html
-  reading file (Statique.readFile)
-    ✓ content should be 'hello world'
-
-✓ OK » 27 honored (0.049s)
-```
-
-# Changelog
-See the [releases page](https://github.com/IonicaBizau/node-statique/releases).
-
-# Thanks to
- - [Silviu Bogan](https://github.com/silviubogan) - that came with the idea to name the project *Statique*.
- - [`node-static` module](https://github.com/cloudhead/node-static) - I took the caching logic from there
- - all contributors that will contribute to this project
-
-# Licence
+## Licence
 See the [LICENSE](/LICENSE) file.
