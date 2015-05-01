@@ -1,8 +1,8 @@
-![Le Statique](http://i.imgur.com/dGw3go8.png)
+![Le Statique](http://i.imgur.com/fzIIqbG.png)
 
 A Node.JS static server module with built-in cache options and route features.
 
-[![](https://nodei.co/npm/statique.png)](https://www.npmjs.org/package/statique)
+[![](https://nodei.co/npm/statique.png?downloads)](https://www.npmjs.org/package/statique)
 
 ## Example
 
