@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+// Dependencies
+var Statique = require("../lib")
+  , Logger = require("bug-killer")
+  , CLP = require("clp")
+  , Package = require("../package")
+  , Abs = require("abs")
+  , Http = require("http")
+  ;
+
+// Parse the command line arguments
+var rootOpt = new CLP.Option(["r", "root"], "The server public directory.", "root", ".")
+  , cacheOpt = new CLP.Option(["c", "cache"], "The cache value in seconds.", "seconds", 36000)
+  , portOpt = new CLP.Option(["p", "port"], "The port where the server will run.", "port", 9000)
+  , parser = new CLP({
+        name: Package.name
+      , version: Package.version
+      , exe: Package.name
+      , examples: [
+            "statique # opens the server on port 9000 serving files from the current dir"
+          , "statique -p 5000 -r path/to/public -c 0 # without cache"
+        ]
+      , docs_url: Package.homepage
+      , process: true
+    }, [
+        rootOpt
+      , cacheOpt
+      , portOpt
+    ])
+  ;
+
+rootOpt.value = Abs(rootOpt.value);
+
+// Create *Le Statique* server
+var server = new Statique({
+    root: rootOpt.value
+  , cache: cacheOpt.value
+});
+
+// create server
+Http.createServer(function (req, res) {
+    Logger.log([req.method, req.url].join(" "));
+    server.serve(req, res);
+}).listen(portOpt.value, function (err) {
+    if (err) { return Logger.log(err); }
+    Logger.log("Server is running on http://localhost:" + portOpt.value);
+});
