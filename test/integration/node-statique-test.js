@@ -3,14 +3,14 @@ var Vows = require("vows")
   , Request = require("request")
   , Http = require("http")
   , Assert = require("assert")
-  , Path = require("path")
   , Statique = require("../../lib/")
   , Fs = require("fs")
+  , Abs = require("abs")
   ;
 
 // Create the Statique server
 var sServer = new Statique({
-    root: Path.resolve(__dirname, "../fixtures")
+    root: Abs(__dirname + "/../fixtures")
 }).setRoutes({
     "/crash": {
         get: function (req, res) { undefined.something; }
