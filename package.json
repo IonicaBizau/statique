@@ -37,9 +37,11 @@
     "abs": "^1.0.0",
     "bug-killer": "^4.0.0",
     "clp": "^3.0.0",
-    "inherits": "^2.0.1",
     "mime": "^1.3.4",
     "regex-parser": "^1.0.0",
     "ul": "^5.0.0"
+  },
+  "blah": {
+      "h_img": "http://i.imgur.com/fzIIqbG.png"
   }
 }
