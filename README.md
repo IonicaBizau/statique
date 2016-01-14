@@ -1,8 +1,8 @@
 [![statique](http://i.imgur.com/fzIIqbG.png)](#)
 
-# `$ statique` [![Support this project][donate-now]][paypal-donations]
+# `$ statique` [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Travis](https://img.shields.io/travis/IonicaBizau/node-statique.svg)](https://travis-ci.org/IonicaBizau/node-statique/) [![Version](https://img.shields.io/npm/v/statique.svg)](https://www.npmjs.com/package/statique) [![Downloads](https://img.shields.io/npm/dt/statique.svg)](https://www.npmjs.com/package/statique) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
 
-A Node.JS static server module with built-in cache options and route features.
+> A Node.JS static server module with built-in cache options and route features.
 
 ## Installation
 
@@ -113,7 +113,7 @@ If you are using this library in one of your projects, add it in this list. :spa
 
  - [`lien`](https://github.com/LienJS/Lien)
 
- - [`test-youtube-api`](https://github.com/IonicaBizau/test-youtube-api) by Ionică Bizău
+ - [`test-youtube-api`](https://github.com/IonicaBizau/test-youtube-api)
 
  - [`xhr-form-submitter-test`](https://github.com/IonicaBizau/xhr-form-submitter.js)
 
