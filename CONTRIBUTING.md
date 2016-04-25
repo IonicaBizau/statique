@@ -59,6 +59,8 @@ Contributions are more than welcome!
 
 Thanks! :sweat_smile:
 
-[1]: https://github.com/IonicaBizau/node-statique/issues
+
+
+[1]: https://github.com/IonicaBizau/statique/issues
 
 [2]: https://github.com/IonicaBizau/code-style

@@ -1,38 +1,43 @@
+
 [![statique](http://i.imgur.com/fzIIqbG.png)](#)
 
-# `$ statique` [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Travis](https://img.shields.io/travis/IonicaBizau/node-statique.svg)](https://travis-ci.org/IonicaBizau/node-statique/) [![Version](https://img.shields.io/npm/v/statique.svg)](https://www.npmjs.com/package/statique) [![Downloads](https://img.shields.io/npm/dt/statique.svg)](https://www.npmjs.com/package/statique) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
+# `$ statique` [![PayPal](https://img.shields.io/badge/%24-paypal-f39c12.svg)][paypal-donations] [![Travis](https://img.shields.io/travis/IonicaBizau/statique.svg)](https://travis-ci.org/IonicaBizau/statique/) [![Version](https://img.shields.io/npm/v/statique.svg)](https://www.npmjs.com/package/statique) [![Downloads](https://img.shields.io/npm/dt/statique.svg)](https://www.npmjs.com/package/statique) [![Get help on Codementor](https://cdn.codementor.io/badges/get_help_github.svg)](https://www.codementor.io/johnnyb?utm_source=github&utm_medium=button&utm_term=johnnyb&utm_campaign=github)
 
 > A Node.JS static server module with built-in cache options and route features.
 
-## Installation
+## :cloud: Installation
 
 You can install the package globally and use it as command line tool:
+
 
 ```sh
 $ npm i -g statique
 ```
 
+
 Then, run `statique --help` and see what the CLI tool can do.
 
-```sh
+
+```
 $ statique --help
 Usage: statique [options]
 
 Options:
-  -r, --root <root>      The server public directory.       
-  -c, --cache <seconds>  The cache value in seconds.        
+  -r, --root <root>      The server public directory.
+  -c, --cache <seconds>  The cache value in seconds.
   -p, --port <port>      The port where the server will run.
-  -h, --help             Displays this help.                
-  -v, --version          Displays version information.      
+  -h, --help             Displays this help.
+  -v, --version          Displays version information.
 
 Examples:
   statique # opens the server on port 9000 serving files from the current dir
   statique -p 5000 -r path/to/public -c 0 # without cache
 
-Documentation can be found at https://github.com/IonicaBizau/node-statique
+Documentation can be found at https://github.com/IonicaBizau/statique
 ```
 
-## Example
+## :clipboard: Example
+
 
 Here is an example how to use this package as library. To install it locally, as library, you can do that using `npm`:
 
@@ -40,9 +45,11 @@ Here is an example how to use this package as library. To install it locally, as
 $ npm i --save statique
 ```
 
+
+
 ```js
 // Dependencies
-var Statique = require("statique/index")
+var Statique = require("../lib/index")
   , Http = require('http')
   ;
 
@@ -99,25 +106,22 @@ Http.createServer(server.serve.bind(server)).listen(8000, function (err) {
 });
 ```
 
-## Documentation
+## :memo: Documentation
 
 For full API reference, see the [DOCUMENTATION.md][docs] file.
 
-## How to contribute
+## :yum: How to contribute
 Have an idea? Found a bug? See [how to contribute][contributing].
 
-## Where is this library used?
+## :dizzy: Where is this library used?
 If you are using this library in one of your projects, add it in this list. :sparkles:
 
- - [`bac-results`](https://github.com/IonicaBizau/bac-results)
 
- - [`lien`](https://github.com/LienJS/Lien)
+ - [`bac-results`](https://github.com/IonicaBizau/bac-results)—A daemon to email the user when the baccalaureate results are posted on the official website.
+ - [`test-youtube-api`](https://github.com/IonicaBizau/test-youtube-api)—Test Youtube API NodeJS module
+ - [`xhr-form-submitter-test`](https://github.com/IonicaBizau/xhr-form-submitter.js)—Test application for XHR form submitter JavaScript library
 
- - [`test-youtube-api`](https://github.com/IonicaBizau/test-youtube-api)
-
- - [`xhr-form-submitter-test`](https://github.com/IonicaBizau/xhr-form-submitter.js)
-
-## License
+## :scroll: License
 
 [MIT][license] © [Ionică Bizău][website]
 

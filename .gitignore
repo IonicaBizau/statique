@@ -1,5 +1,5 @@
-*~
 *.swp
-/node_modules
+*.swo
+*~
 *.log
-output.md
+node_modules

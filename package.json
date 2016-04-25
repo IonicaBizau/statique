@@ -1,6 +1,6 @@
 {
   "name": "statique",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "A Node.JS static server module with built-in cache options and route features.",
   "main": "lib/index.js",
   "bin": {
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/IonicaBizau/node-statique.git"
+    "url": "https://github.com/IonicaBizau/statique.git"
   },
   "keywords": [
     "static",
@@ -30,9 +30,9 @@
   "author": "Ionică Bizău <bizauionica@gmail.com> (http://ionicabizau.net)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/IonicaBizau/node-statique/issues"
+    "url": "https://github.com/IonicaBizau/statique/issues"
   },
-  "homepage": "https://github.com/IonicaBizau/node-statique",
+  "homepage": "https://github.com/IonicaBizau/statique",
   "dependencies": {
     "abs": "^1.0.0",
     "bug-killer": "^4.0.0",
@@ -43,5 +43,16 @@
   },
   "blah": {
     "h_img": "http://i.imgur.com/fzIIqbG.png"
-  }
+  },
+  "files": [
+    "bin/",
+    "app/",
+    "lib/",
+    "dist/",
+    "src/",
+    "resources/",
+    "menu/",
+    "cli.js",
+    "index.js"
+  ]
 }
