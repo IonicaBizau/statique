@@ -78,7 +78,9 @@ Sets the error custom pages.
 }
 ```
 
-The paths should be relative to the server's root directory.
+The paths should be relative to the server's root directory. If an error
+page's path is not found at the specified location, infinite recursion
+occurs and the server crashes.
 
 #### Return
 - **Statique** The `Statique` instance.
