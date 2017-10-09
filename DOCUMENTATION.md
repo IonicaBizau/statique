@@ -6,7 +6,6 @@ You can see below the API reference of this module.
 Creates a new route object.
 
 #### Params
-
 - **Function|String|Object** `route`: The route handler. Depending on the data type, it will be used for different scopes:
  - `Function`: All the requests will be handled by this function (called with the `request`, `response` and `form` objects).
  - `String`: The path to the file to be served.
@@ -25,7 +24,6 @@ Creates a new route object.
 Creates a new `Statique` server instance.
 
 #### Params
-
 - **String|Object** `options`: A string indicating the server root path or an object containing the following fields:
  - `root`: A string representing the absolute path to the public folder.
  - `cache`: How long the client is supposed to cache the files Statique serves (in seconds).
@@ -37,7 +35,6 @@ Creates a new `Statique` server instance.
 Adds a new route in the Statique instance.
 
 #### Params
-
 - **Function|String|Object** `route`: The route handler. Depending on the data type, it will be used for different scopes:
  - `Function`: All the requests will be handled by this function (called with the `request`, `response` and `form` objects).
  - `String`: The path to the file to be served.
@@ -51,7 +48,6 @@ Adds a new route in the Statique instance.
 Sets the routes of the website.
 
 #### Params
-
 - **Object** `routes`: An object containing fields and values in the following format:
 
 ```js
@@ -74,7 +70,6 @@ See test file for more examples.
 Sets the error custom pages.
 
 #### Params
-
 - **Object** `errorRoutes`: An object with the error codes and their paths to the HTML files:
 ```js
 {
@@ -83,6 +78,10 @@ Sets the error custom pages.
 }
 ```
 
+The paths should be relative to the server's root directory. If an error
+page's path is not found at the specified location, infinite recursion
+occurs and the server crashes.
+
 #### Return
 - **Statique** The `Statique` instance.
 
@@ -90,7 +89,6 @@ Sets the error custom pages.
 Gets the route by providing the `url` parameter.
 
 #### Params
-
 - **String** `url`: A string representing the url of the page that must be served.
 
 #### Return
@@ -104,7 +102,6 @@ Gets the route by providing the `url` parameter.
 Checks if a route exists.
 
 #### Params
-
 - **Request** `req`: The request object.
 
 #### Return
@@ -114,7 +111,6 @@ Checks if a route exists.
 Reads the file and callbacks the content.
 
 #### Params
-
 - **String** `file`: The relative path to the file.
 - **Function** `callback`: The callback function.
 
@@ -125,7 +121,6 @@ Reads the file and callbacks the content.
 Serves the file by providing the request and response parameters.
 
 #### Params
-
 - **Request** `req`: The request object.
 - **Response** `res`: The response object.
 
@@ -138,7 +133,6 @@ If the `content` parameter is not provided or is not a string, the response
 will not be ended. However, the status code and the headers will be set.
 
 #### Params
-
 - **Response** `res`: The response object.
 - **Number** `statusCode`: The response status code.
 - **String** `mimeType`: The response mime type.
@@ -152,7 +146,6 @@ will not be ended. However, the status code and the headers will be set.
 Sends the not found response.
 
 #### Params
-
 - **Request** `req`: The request object.
 - **Response** `res`: The response object.
 
@@ -163,7 +156,6 @@ Sends the not found response.
 Sends the internal server error response.
 
 #### Params
-
 - **Request** `req`: The request object.
 - **Response** `res`: The response object.
 
@@ -174,7 +166,6 @@ Sends the internal server error response.
 Serves a file
 
 #### Params
-
 - **String|Object** `path`: The path to the file that should be served or the route object.
 - **Number** `statusCode`: The response status code (default: 200).
 - **Response** `res`: The response object.
@@ -189,7 +180,6 @@ Serves a file
 Serves a provided route.
 
 #### Params
-
 - **String** `route`: The route that should be served.
 - **Request** `req`: The request object.
 - **Response** `res`: The response object.
@@ -201,7 +191,6 @@ Serves a provided route.
 Redirects the user to the new url passed in the second argument.
 
 #### Params
-
 - **Response** `res`: The response object.
 - **String** `newUrl`: The new url where the user should be redirected.
 
@@ -212,7 +201,6 @@ Redirects the user to the new url passed in the second argument.
 Sends an error to client
 
 #### Params
-
 - **Request** `req`: The request object.
 - **Response** `res`: The response object.
 - **Number** `errCode`: The error code.

@@ -28,6 +28,9 @@
     "http"
   ],
   "author": "Ionică Bizău <bizauionica@gmail.com> (https://ionicabizau.net)",
+  "contributors": [
+    "Silviu Bogan <silviubogan@gmail.com> (https://lumea-lui-silviu.blogspot.ro)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/IonicaBizau/statique/issues"
