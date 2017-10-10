@@ -32,7 +32,7 @@ var server = new Statique({
   , "/crash": {
         get: function (req, res) { undefined.something; }
     }
-  , "\/anynumber\-[0-9]": {
+  , "/anynumber-[0-9]": {
         re: true
       , handler: function (req, res) {
             res.end("Hi");
