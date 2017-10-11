@@ -48,13 +48,10 @@ Http.createServer(function (req, res) {
     let p = Abs(req.url);
     // check if it exists in the file system
     fs.exists(p, function (exists) {
-        // if it exists
-        if (exists) {
-            // and it is a directory
-            if (fs.statSync(p).isDirectory()) {
-                // set to request the index.html file in it
-                req.url = path.join(req.url, "index.html");
-            }
+        // if it exists and it is a directory
+        if (exists && fs.statSync(p).isDirectory()) {
+            // set to request the index.html file in it
+            req.url = path.join(req.url, "index.html");
         }
         // serve
         server.serve(req, res);
