@@ -47,9 +47,9 @@ Http.createServer(function (req, res) {
     // get the absolute path
     let p = Abs(req.url);
     // check if it exists in the file system
-    fs.exists(p, function (exists) {
+    fs.stat(p, function (error, stat) {
         // if it exists and it is a directory
-        if (exists && fs.statSync(p).isDirectory()) {
+        if (stat && stat.isDirectory()) {
             // set to request the index.html file in it
             req.url = path.join(req.url, "index.html");
         }
