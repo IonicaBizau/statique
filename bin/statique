@@ -7,6 +7,8 @@ var Statique = require("../lib")
   , Package = require("../package")
   , Abs = require("abs")
   , Http = require("http")
+  , fs = require("fs")
+  , path = require("path")
   ;
 
 // Parse the command line arguments
@@ -41,7 +43,19 @@ var server = new Statique({
 // create server
 Http.createServer(function (req, res) {
     Logger.log([req.method, req.url].join(" "));
-    server.serve(req, res);
+
+    // get the absolute path
+    let p = Abs(req.url);
+    // check if it exists in the file system
+    fs.stat(p, function (error, stat) {
+        // if it exists and it is a directory
+        if (stat && stat.isDirectory()) {
+            // set to request the index.html file in it
+            req.url = path.join(req.url, "index.html");
+        }
+        // serve
+        server.serve(req, res);
+    });
 }).listen(portOpt.value, function (err) {
     if (err) { return Logger.log(err); }
     Logger.log("Server is running on http://localhost:" + portOpt.value);
