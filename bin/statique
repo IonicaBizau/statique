@@ -45,7 +45,7 @@ Http.createServer(function (req, res) {
     Logger.log([req.method, req.url].join(" "));
 
     // get the absolute path
-    let p = Abs(req.url);
+    let p = path.join(server.root, req.url);
     // check if it exists in the file system
     fs.stat(p, function (error, stat) {
         // if it exists and it is a directory
