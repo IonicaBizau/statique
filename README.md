@@ -30,18 +30,20 @@ Then, run `statique --help` and see what the CLI tool can do.
 $ statique --help
 Usage: statique [options]
 
+A Node.JS static server module with built-in cache options and route features.
+
 Options:
-  -r, --root <root>      The server public directory.
-  -c, --cache <seconds>  The cache value in seconds.
-  -p, --port <port>      The port where the server will run.
-  -h, --help             Displays this help.
-  -v, --version          Displays version information.
+  -p, --port <port>    The port where the server will run.
+  -c, --cache <cache>  The cache value in seconds.
+  -r, --root <root>    The server public directory.
+  -h, --help           Displays this help.
+  -v, --version        Displays version information.
 
 Examples:
-  statique # opens the server on port 9000 serving files from the current dir
-  statique -p 5000 -r path/to/public -c 0 # without cache
+  $ statique # opens the server on port 9000 serving files from the current dir
+  $ statique -p 5000 -r path/to/public -c 0 # without cache
 
-Documentation can be found at https://github.com/IonicaBizau/statique
+Documentation can be found at https://github.com/IonicaBizau/statique.
 ```
 
 ## :clipboard: Example
