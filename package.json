@@ -3,7 +3,7 @@
     "statique": "bin/statique.js"
   },
   "name": "statique",
-  "version": "3.3.5",
+  "version": "3.3.6",
   "description": "A Node.JS static server module with built-in cache options and route features.",
   "main": "lib/index.js",
   "directories": {
@@ -58,6 +58,8 @@
     "menu/",
     "cli.js",
     "index.js",
+    "index.d.ts",
+    "package-lock.json",
     "bloggify.js",
     "bloggify.json",
     "bloggify/"
